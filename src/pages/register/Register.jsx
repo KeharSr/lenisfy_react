@@ -5,12 +5,13 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import avatar from '../../assets/images/profile.png';
 import { Toaster,toast } from 'react-hot-toast';
+import { registerUserApi } from '../../apis/Api'
 import './Register.css';
 
 const Register = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [username, setUsername] = useState('');
+    const [userName, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -54,7 +55,7 @@ const Register = () => {
             isValid = false;
         }
 
-        if (username.trim() === '') {
+        if (userName.trim() === '') {
             setUsernameError('Username is required');
             isValid = false;
         }
@@ -78,21 +79,34 @@ const Register = () => {
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        setFirstNameError('');
-        setLastNameError('');
-        setUsernameError('');
-        setEmailError('');
-        setPasswordError('');
-        setConfirmPasswordError('');
-
-        const isValid = validate();
-
-        if (isValid) {
-            toast.success('Registered successfully!');
+        e.preventDefault()
+    
+        //validate
+        var isValidated = validate();
+        if(!isValidated){
+          return
         }
-    };
-
+        // Sending request to the api
+    
+        // Making json object
+        const data ={
+          "firstName" : firstName,
+          "lastName" : lastName,
+          "userName" : userName,
+          "email" : email,
+          "password" : password
+        
+        }
+        registerUserApi(data).then((res) =>{
+          // Receive data : sucess, message
+          if(res.data.sucess === false){
+            toast.error(res.data.message)
+          }else{
+            toast.success(res.data.message)
+          }
+        })
+      }
+    
     return (
         <div className="register-container mx-auto flex items-center justify-center h-50 ">
             <Toaster />

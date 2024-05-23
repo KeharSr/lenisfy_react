@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import avatar from '../../assets/images/profile.png';
 import './Login.css';
 import { Toaster, toast } from 'react-hot-toast';
+import { loginUserApi } from '../../apis/Api'
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -28,15 +29,44 @@ const Login = () => {
     return isValid;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleLogin = (e) => {
+    e.preventDefault()
 
-    const isValid = validation();
-
-    if (isValid) {
-      toast.success('Registered successfully!');
+    // Validation
+    if(!validation()) {
+      return;
     }
-  };
+
+
+    // make a json object
+    const data = {
+      "email": email,
+      "password": password
+    }
+
+    loginUserApi(data).then((res)=>{
+      if(res.data.sucess===false){
+        toast.error(res.data.message)
+      }
+      else{
+        toast.success(res.data.message)
+
+        //  Sucess-bool, message, token-text, user data -json 
+        // Setting token and user data in local storage
+        localStorage.setItem('token', res.data.token)
+
+        // Setting user data
+        const convertedData = JSON.stringify(res.data.userData)
+
+        // local storage set
+        localStorage.setItem('user', convertedData)
+
+      }
+    })
+
+
+   
+  }
 
   return (
     <div className="container mx-auto flex items-center justify-center h-screen">
@@ -48,7 +78,7 @@ const Login = () => {
             To keep connected with us please login with your personal info
           </span>
         </div>
-        <form onSubmit={handleSubmit} className="py-0">
+        <form onSubmit={handleLogin} className="py-0">
           <div className="profile flex justify-center py-1">
             <img src={avatar} className="profile_img" alt="avatar" />
           </div>
