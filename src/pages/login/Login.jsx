@@ -1,11 +1,13 @@
 
 
+
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import avatar from '../../assets/images/profile.png';
+import loginui from '../../assets/images/loginui.png';
 import './Login.css';
 import { Toaster, toast } from 'react-hot-toast';
-import { loginUserApi } from '../../apis/Api'
+import { loginUserApi } from '../../apis/Api';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -18,100 +20,99 @@ const Login = () => {
     let isValid = true;
 
     if (email.trim() === '' || !email.includes('@')) {
-      setEmailError('Email is empty or invalid ');
+      setEmailError('Email is empty or invalid');
       isValid = false;
+    } else {
+      setEmailError('');
     }
 
     if (password.trim() === '') {
-      setPasswordError('Password is empty ');
+      setPasswordError('Password is empty');
       isValid = false;
+    } else {
+      setPasswordError('');
     }
+
     return isValid;
   };
 
   const handleLogin = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     // Validation
-    if(!validation()) {
+    if (!validation()) {
       return;
     }
 
-
     // make a json object
     const data = {
-      "email": email,
-      "password": password
-    }
+      email: email,
+      password: password
+    };
 
-    loginUserApi(data).then((res)=>{
-      if(res.data.sucess===false){
-        toast.error(res.data.message)
-      }
-      else{
-        toast.success(res.data.message)
+    loginUserApi(data).then((res) => {
+      if (res.data.success === false) {
+        toast.error(res.data.message);
+      } else {
+        toast.success(res.data.message);
 
-        //  Sucess-bool, message, token-text, user data -json 
         // Setting token and user data in local storage
-        localStorage.setItem('token', res.data.token)
+        localStorage.setItem('token', res.data.token);
 
         // Setting user data
-        const convertedData = JSON.stringify(res.data.userData)
+        const convertedData = JSON.stringify(res.data.userData);
 
         // local storage set
-        localStorage.setItem('user', convertedData)
-
+        localStorage.setItem('user', convertedData);
       }
-    })
-
-
-   
-  }
+    });
+  };
 
   return (
-    <div className="container mx-auto flex items-center justify-center h-screen">
+    <div className="login-container">
       <Toaster />
-      <div className="glass py-2">
-        <div className="title flex flex-col items-center">
-          <h4 className="text-5xl font-bold">Hello Again!</h4>
-          <span className="py-4 text-xl w-2/3 text-center text-gray-500">
-            To keep connected with us please login with your personal info
-          </span>
-        </div>
-        <form onSubmit={handleLogin} className="py-0">
-          <div className="profile flex justify-center py-1">
-            <img src={avatar} className="profile_img" alt="avatar" />
-          </div>
-          <div className="textbox   flex flex-col items-center px-2 gap-6">
+      <div className="login-box">
+        <div className="login-form">
+          <h2 className="login-title">Login</h2>
+          <p className="login-subtitle">Please Login to Continue</p>
+
+          <form onSubmit={handleLogin} className="login-fields">
             <input
+              className="login-input"
               type="text"
+              name="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="textbox"
             />
-            {emailError && <p className="text-danger">{emailError}</p>}
+            {emailError && <p className="login-error">{emailError}</p>}
             <input
+              className="login-input"
               type="password"
+              name="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="textbox"
             />
-            {passwordError && <p className="text-danger">{passwordError}</p>}
-            <button type="submit" className="btn">
-              Let's Go
+            {passwordError && <p className="login-error">{passwordError}</p>}
+            <button type="submit" className="login-button">
+              Login
             </button>
-          </div>
-          <div className="text-center py-4">
-            <span className="text-grey-500">
-              Not a member{' '}
-              <Link className="text-red-400" to="/register">
-                Register Now
+          </form>
+
+          <div className="register-link">
+            <p>
+              Don't have an account?{' '}
+              <Link to="/register" className="text-blue-600 hover:underline">
+                Register
               </Link>
-            </span>
+            </p>
           </div>
-        </form>
+        </div>
+
+        <div className="login-image">
+          <img src={loginui} alt="Login" />
+        </div>
       </div>
     </div>
   );

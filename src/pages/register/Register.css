@@ -1,33 +1,52 @@
 
 
-.register-glass{
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px  #4747470b;
-    backdrop-filter: blur(7.1px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    @apply border-4 border-gray-50 shrink-0  w-[60%] h-[105%] rounded-3xl py-20 px-7 min-w-max;
-    
-   
+.register-container {
+  @apply min-h-screen flex items-center justify-center bg-gray-50;
 }
 
-.register-profile_img{
-    @apply border-4 border-gray-100 w-[140px] h-[50%] rounded-full  shadow-lg cursor-pointer;
-    @apply hover:border-gray-200;
+.register-box {
+  @apply bg-white flex rounded-2xl shadow-lg max-w-7xl;
 }
 
-.textbox{
-    @apply border-0 px-5 py-4 rounded-xl w-3/4 shadow-sm text-lg;
-    @apply focus:outline-none;
-    margin: 0 auto;
-
+.register-form {
+  @apply w-1/2 p-8 bg-blue-100 rounded-l-2xl flex flex-col justify-center; 
 }
 
-.register-btn{
-    @apply border bg-indigo-500 w-3/4 py-4 rounded-lg text-gray-50 text-xl shadow-sm text-center ;
+.register-title {
+  @apply text-3xl font-bold text-blue-900; 
 }
 
-.register-btn:hover{
-    background-color:#88ff6a
+.register-subtitle {
+  @apply text-lg mt-4 text-blue-900; 
 }
 
+.register-fields {
+  @apply flex flex-col gap-6 mt-8;
+}
+
+.register-input {
+  
+    @apply p-3 rounded-xl border w-full; 
+  }
+  
+
+
+.register-button {
+  @apply bg-blue-900 text-white rounded-xl py-3 hover:scale-100 duration-300; 
+}
+
+.login-link {
+  @apply mt-4 text-lg text-blue-900; 
+}
+
+.register-image {
+  @apply w-2/3 hidden md:flex items-center justify-center; 
+}
+
+.register-image img {
+  @apply rounded-r-2xl h-full object-cover;
+}
+
+.error-message {
+  @apply text-red-500 text-sm absolute;
+}
