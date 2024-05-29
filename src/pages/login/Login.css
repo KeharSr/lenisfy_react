@@ -1,51 +1,54 @@
 
 
-
-
- .login-container {
-  @apply min-h-screen flex items-center justify-center bg-gray-50;
-}
-
-.login-box {
-  @apply bg-white flex rounded-2xl shadow-lg max-w-5xl;
-}
-
-.login-form {
-  @apply w-1/2 p-8 bg-blue-100 rounded-l-2xl flex flex-col justify-center;
-}
-
-.login-title {
-  @apply text-2xl font-bold text-blue-900;
-}
-
-.login-subtitle {
-  @apply text-sm mt-4 text-blue-900;
-}
-
-.login-fields {
-  @apply flex flex-col gap-4 mt-8;
-}
-
-.login-input {
-  @apply p-2 rounded-xl border;
-}
-
-.login-button {
-  @apply bg-blue-900 text-white rounded-xl py-2 hover:scale-105 duration-300;
-}
-
-.register-link {
-  @apply mt-4 text-sm text-blue-900;
-}
-
-.login-image {
-  @apply w-1/2 hidden md:flex items-center justify-center;
-}
-
-.login-image img {
-  @apply rounded-r-2xl h-full object-cover;
-}
-
-.login-error {
-  @apply text-red-500 text-sm absolute;
-}
+   .login-container {
+    @apply min-h-screen flex items-center justify-center bg-gray-50;
+  }
+  
+  .login-box {
+    @apply bg-white flex rounded-2xl shadow-lg max-w-5xl;
+  }
+  
+  .login-form {
+    @apply w-1/2 p-8 bg-blue-100 rounded-l-2xl flex flex-col justify-center;
+  }
+  
+  .login-title {
+    @apply text-2xl font-bold text-blue-900;
+  }
+  
+  .login-subtitle {
+    @apply text-sm mt-4 text-blue-900;
+  }
+  
+  .login-fields {
+    @apply flex flex-col gap-4 mt-8;
+  }
+  
+  .input-container {
+    @apply relative mb-2;
+  }
+  
+  .login-input {
+    @apply p-3 rounded-xl border w-full;
+  }
+  
+  .login-button {
+    @apply bg-blue-900 text-white rounded-xl py-2 hover:scale-105 duration-300;
+  }
+  
+  .register-link {
+    @apply mt-4 text-sm text-blue-900;
+  }
+  
+  .login-image {
+    @apply w-2/3 hidden md:flex items-center justify-center;
+  }
+  
+  .login-image img {
+    @apply rounded-r-2xl h-full object-cover;
+  }
+  
+  .login-error-message {
+    @apply text-red-500 text-sm mt-1 absolute;
+  }
+  
