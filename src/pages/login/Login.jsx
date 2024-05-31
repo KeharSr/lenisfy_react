@@ -1,14 +1,11 @@
 
-
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import loginui from '../../assets/images/loginui.png';
 import './Login.css';
 import { Toaster, toast } from 'react-hot-toast';
 import { loginUserApi } from '../../apis/Api';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+
 
 
 const Login = () => {
@@ -24,53 +21,49 @@ const Login = () => {
     if (email.trim() === '' || !email.includes('@')) {
       setEmailError('Email is empty or invalid');
       isValid = false;
-    } else {
-      setEmailError('');
     }
 
     if (password.trim() === '') {
       setPasswordError('Password is empty');
       isValid = false;
-    } else {
-      setPasswordError('');
     }
 
     return isValid;
   };
 
+ 
+
   const handleLogin = (e) => {
     e.preventDefault();
 
-    
-
-    // Validation
     if (!validation()) {
-      return;
+        return;
     }
 
-    // make a json object
     const data = {
-      email: email,
-      password: password
-    };
+        "email": email,
+        "password": password
+    }
 
-    loginUserApi(data).then((res) => {
-      if (res.data.success === false) {
-        toast.error(res.data.message);
-      } else {
-        toast.success(res.data.message);
+    loginUserApi(data)
+        .then((res) => {
+            if (res.data.message === 'User Doesnt Exist !' || res.data.message === 'Password Doesnt Matched !') {
+                
+                toast.error(res.data.message);
+            } else {
+                
+                toast.success(res.data.message);
 
-        // Setting token and user data in local storage
-        localStorage.setItem('token', res.data.token);
-
-        // Setting user data
-        const convertedData = JSON.stringify(res.data.userData);
-
-        // local storage set
-        localStorage.setItem('user', convertedData);
-      }
-    });
-  };
+                localStorage.setItem('token', res.data.token);
+                const convertedData = JSON.stringify(res.data.userData);
+                localStorage.setItem('user', convertedData);
+            }
+        })
+        .catch((error) => {
+            
+            toast.error('An error occurred. Please try again.');
+        });
+}
 
   return (
     <div className="login-container">
@@ -82,15 +75,18 @@ const Login = () => {
 
           <form onSubmit={handleLogin} className="login-fields">
             <div className="input-container">
-            <FontAwesomeIcon icon={faEnvelope} className="input-icon" />
+
               <input
+                onChange={(e) => setEmail(e.target.value)}
                 className="login-input"
                 type="text"
-                
+
+
                 name="email"
-                placeholder="Email"
+
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+
+                placeholder="Email"
               />
               {emailError && <p className="login-error-message">{emailError}</p>}
             </div>

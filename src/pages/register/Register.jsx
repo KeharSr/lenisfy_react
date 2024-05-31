@@ -71,12 +71,12 @@ function Register() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Validation
+        
         if (!validateForm()) {
             return;
         }
 
-        // Prepare data for API call
+       
         const data = {
             firstName: firstName,
             lastName: lastName,
@@ -85,16 +85,16 @@ function Register() {
             password: password,
         };
 
-        // Make API call
+        
         registerUserApi(data)
-            .then((response) => {
-                // Handle success response
-                toast.success('Registration successful! Please login to continue.');
-            })
-            .catch((error) => {
-                // Handle error response
-                toast.error('Registration failed. Please try again.');
-            });
+        .then((response) => {
+            
+            toast.success('Registration successful! Please login to continue.');
+        })
+        .catch((error) => {
+            
+            toast.error('Registration failed. Please try again.');
+        });
     };
 
     return (
