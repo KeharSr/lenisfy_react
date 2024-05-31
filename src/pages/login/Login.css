@@ -5,7 +5,7 @@
   }
   
   .login-box {
-    @apply bg-white flex rounded-2xl shadow-lg max-w-5xl;
+    @apply bg-white flex rounded-2xl shadow-lg max-w-6xl;
   }
   
   .login-form {
