@@ -86,15 +86,14 @@ function Register() {
         };
 
         
-        registerUserApi(data)
-        .then((response) => {
-            
-            toast.success('Registration successful! Please login to continue.');
-        })
-        .catch((error) => {
-            
-            toast.error('Registration failed. Please try again.');
-        });
+        registerUserApi(data).then((res) =>{
+           
+            if(res.data.sucess === false){
+              toast.error(res.data.message)
+            }else{
+              toast.success(res.data.message)
+            }
+          }) 
     };
 
     return (

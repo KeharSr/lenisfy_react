@@ -45,24 +45,24 @@ const Login = () => {
         "password": password
     }
 
-    loginUserApi(data)
-        .then((res) => {
-            if (res.data.message === 'User Doesnt Exist !' || res.data.message === 'Password Doesnt Matched !') {
-                
-                toast.error(res.data.message);
-            } else {
-                
-                toast.success(res.data.message);
+    loginUserApi(data).then((res)=>{
+      if(res.data.sucess===false){
+        toast.error(res.data.message)
+      }
+      else{
+        toast.success(res.data.message)
 
-                localStorage.setItem('token', res.data.token);
-                const convertedData = JSON.stringify(res.data.userData);
-                localStorage.setItem('user', convertedData);
-            }
-        })
-        .catch((error) => {
-            
-            toast.error('An error occurred. Please try again.');
-        });
+        
+        localStorage.setItem('token', res.data.token)
+
+        
+        const convertedData = JSON.stringify(res.data.userData)
+
+       
+        localStorage.setItem('user', convertedData)
+
+      }
+    })
 }
 
   return (
