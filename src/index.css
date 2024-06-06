@@ -12,6 +12,6 @@
 }
 
 body{
-    background: white
-    /* background-image: url(./assets/images/Background.png); */
+    min-height: 100vh;
+    background-color: #ecf4df
 }

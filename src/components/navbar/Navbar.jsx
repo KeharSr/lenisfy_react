@@ -1,46 +1,31 @@
-import React, { useState } from 'react';
-import './Navbar.css'; // Import the CSS file
+import React from 'react';
+import applogo from '../../assets/images/applogo.png';
+import searchicon from '../../assets/images/search_icon.png';
+import basketicon from '../../assets/images/basket_icon.png';
 
-function Navbar() {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-    };
-
+const Navbar = () => {
     return (
-        <nav className="bg-green-800 p-2 md:p-4">
-            <div className="max-w-7xl mx-auto">
-                <div className="flex justify-between items-center">
-                    <div className="flex items-center">
-                        <a href="#" className="text-white font-bold text-lg md:text-xl">Logo</a>
+        <nav className="bg-transparent py-2">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex items-center justify-between h-16">
+                    <div className="flex-shrink-0 flex items-center">
+                        <p className="text-red-500 font-bold text-2xl mr-4">Lensify</p>
+                        <img className="h-8 w-8" src={applogo} alt="Logo" />
                     </div>
-                    <div className="flex items-center justify-center flex-1 md:flex">
-                        <a href="#" className="nav-link">Home</a>
-                        <a href="#" className="nav-link">About</a>
-                        <a href="#" className="nav-link">Services</a>
-                        <a href="#" className="nav-link">Contact</a>
-                    </div>
-                    <div className="flex items-center">
-                        <button className="cart-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19c0 1.104.896 2 2 2s2-.896 2-2M9 19c0 1.104.896 2 2 2s2-.896 2-2M9 19c0 1.104.896 2 2 2s2-.896 2-2M9 19c0 1.104.896 2 2 2s2-.896 2-2M9 19c0 1.104.896 2 2 2s2-.896 2-2M9 19c0 1.104.896 2 2 2s2-.896 2-2M9 19c0 1.104.896 2 2 2s2-.896 2-2M9 19c0 1.104.896 2 2 2s2-.896 2-2M3 3h18v2a1 1 0 01-1 1H4a1 1 0 01-1-1V3zm1 7h13.714l1.526 9H4.474l1.526-9zM10 17a2 2 0 100-4 2 2 0 000 4z" />
-                            </svg>
-                        </button>
-                        <div className="profile-dropdown ml-4 relative">
-                            <button className="profile-avatar" onClick={toggleDropdown}>
-                                <img src="https://via.placeholder.com/150" alt="Profile" className="h-8 w-8 rounded-full" />
-                            </button>
-                            <div className={`dropdown-content ${isDropdownOpen ? 'block' : 'hidden'} absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg`}>
-                                <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Upload Image</a>
-                                <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</a>
-                            </div>
+                    <div className="hidden md:block">
+                        <div className="flex items-center justify-center space-x-4">
+                            <a href="/" className="text-black-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                            <a href="/" className="text-black-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
+                            <a href="/" className="text-black-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Services</a>
+                            <a href="/" className="text-black-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                            <a href="/" className="ml-4"><img className="h-5 w-5" src={searchicon} alt="Search Icon" /></a>
+                            <a href="/"><img className="h-5 w-5 ml-4" src={basketicon} alt="Basket Icon" /></a>
                         </div>
                     </div>
                 </div>
             </div>
         </nav>
     );
-}
+};
 
 export default Navbar;
