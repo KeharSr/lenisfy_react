@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link for navigation
-import { FaPlus, FaList, FaShoppingCart } from 'react-icons/fa'; // Importing icons from react-icons
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { FaShoppingCart } from 'react-icons/fa';
 import logo from '../../assets/images/applogo.png';
 import profilePic from '../../assets/images/profile.png';
 import bannerImage from '../../assets/images/AdminImage.jpg';
+import AddProduct from './AddProduct';
 
 const AdminPage = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -46,23 +47,34 @@ const AdminPage = () => {
           )}
         </div>
       </header>
-      {/* Buttons between navbar and image */}
-      <div className="flex justify-center gap-4 mt-8">
-        <Link to="/add-product" className="bg-red-600 text-white py-2 px-4 rounded-full flex items-center">
-          <FaPlus className="mr-2" /> Add Product
-        </Link>
-        <Link to="/list-product" className="bg-red-600 text-white py-2 px-4 rounded-full flex items-center">
-          <FaList className="mr-2" /> List Product
-        </Link>
-        <Link to="/orders" className="bg-red-600 text-white py-2 px-4 rounded-full flex items-center">
-          <FaShoppingCart className="mr-2" /> Orders
-        </Link>
-      </div>
-      {/* Image below the buttons */}
-      <div className="flex-grow flex items-center justify-center mt-8">
-        <img src={bannerImage} alt="Banner" className="w-3/4 h-96 object-contain rounded-lg shadow-md" />
-      </div>
-      {/* Main content of the admin panel can go here */}
+      <Tabs className="flex-grow">
+        <TabList className="flex justify-around bg-gray-200 p-4 gap-4">
+          <Tab className="bg-red-600 text-white py-2 px-4 rounded-full flex items-center" selectedClassName="bg-gray-600">
+            <FaShoppingCart className="mr-2" /> Add-Product
+          </Tab>
+          <Tab className="bg-red-600 text-white py-2 px-4 rounded-full flex items-center" selectedClassName="bg-gray-600">
+            View-Products
+          </Tab>
+          <Tab className="bg-red-600 text-white py-2 px-4 rounded-full flex items-center" selectedClassName="bg-gray-600">
+            Order-Details
+          </Tab>
+        </TabList>
+        <TabPanel>
+          <AddProduct />
+        </TabPanel>
+        <TabPanel>
+         
+          <div className="text-center mt-8">
+            <h1>View-Products Content</h1>
+          </div>
+        </TabPanel>
+        <TabPanel>
+          
+          <div className="text-center mt-8">
+            <h1>Order-Details Content</h1>
+          </div>
+        </TabPanel>
+      </Tabs>
     </div>
   );
 };

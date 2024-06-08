@@ -41,7 +41,7 @@ function App() {
         <Route path ='/register'element={<Register/>}/>
         <Route path = '/homepage' element={<HomePage/>}/>
         <Route path = '/admin' element={<AdminPage/>}/>
-        <Route path="/add-product" component={AddProduct} />
+        <Route path="/add-product" element={<AddProduct/>} />
         
         
 
