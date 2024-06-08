@@ -20,3 +20,8 @@ export const registerUserApi = (data) => Api.post('/api/user/create',data)
 // Login Api
 export const loginUserApi = (data) => Api.post('/api/user/login',data)
 
+
+// Create Product Api
+export const createProductApi = (data) => Api.post('/api/product/create',data)
+
+

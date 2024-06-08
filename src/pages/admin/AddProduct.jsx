@@ -30,14 +30,14 @@ const AddProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Here you can handle form submission, e.g., send data to backend
-    console.log('Form submitted:', {
-      productName,
-      productCategory,
-      productPrice,
-      productDescription,
-      productImage
-    });
-  };
+    const formData = new FormData()
+        formData.append('productName', productName)
+        formData.append('productPrice', productPrice)
+        formData.append('productCategory', productCategory)
+        formData.append('productDescription', productDescription)
+        formData.append('productImage', productImage)
+    };
+  
 
   return (
     <div className="p-4">
