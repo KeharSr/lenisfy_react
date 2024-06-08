@@ -19,6 +19,9 @@ import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import HomePage from './pages/homepage/HomePage';
 import Onboarding from './pages/onboarding/Onboarding';
+import AdminPage from './pages/admin/AdminPage';
+import AddProduct from './pages/admin/AddProduct';
+
 
 
 
@@ -37,6 +40,9 @@ function App() {
         <Route path ='/login'element={<Login/>}/>
         <Route path ='/register'element={<Register/>}/>
         <Route path = '/homepage' element={<HomePage/>}/>
+        <Route path = '/admin' element={<AdminPage/>}/>
+        <Route path="/add-product" component={AddProduct} />
+        
         
 
       </Routes>
