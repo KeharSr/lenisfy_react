@@ -3,7 +3,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FaShoppingCart } from 'react-icons/fa';
 import logo from '../../assets/images/applogo.png';
 import profilePic from '../../assets/images/profile.png';
-import bannerImage from '../../assets/images/AdminImage.jpg';
+
 import AddProduct from './AddProduct';
 
 const AdminPage = () => {
@@ -61,6 +61,7 @@ const AdminPage = () => {
         </TabList>
         <TabPanel>
           <AddProduct />
+          
         </TabPanel>
         <TabPanel>
          

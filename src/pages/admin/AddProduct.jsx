@@ -1,43 +1,50 @@
+
+
+
 import React, { useState } from 'react';
+import {toast} from 'react-toastify';
+import { createProductApi } from '../../apis/Api';
 
 const AddProduct = () => {
   const [productName, setProductName] = useState('');
   const [productCategory, setProductCategory] = useState('');
   const [productPrice, setProductPrice] = useState('');
   const [productDescription, setProductDescription] = useState('');
-  const [productImage, setProductImage] = useState(null);
+  const [productImage, setProductImage] = useState('');
 
-  const handleProductNameChange = (e) => {
-    setProductName(e.target.value);
-  };
-
-  const handleProductCategoryChange = (e) => {
-    setProductCategory(e.target.value);
-  };
-
-  const handleProductPriceChange = (e) => {
-    setProductPrice(e.target.value);
-  };
-
-  const handleProductDescriptionChange = (e) => {
-    setProductDescription(e.target.value);
-  };
-
-  const handleProductImageChange = (e) => {
-    setProductImage(URL.createObjectURL(e.target.files[0]));
+  const handleImage = (event) => {
+    const file = event.target.files[0];
+    setProductImage(file);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you can handle form submission, e.g., send data to backend
-    const formData = new FormData()
-        formData.append('productName', productName)
-        formData.append('productPrice', productPrice)
-        formData.append('productCategory', productCategory)
-        formData.append('productDescription', productDescription)
-        formData.append('productImage', productImage)
-    };
-  
+
+    const formData = new FormData();
+    formData.append('productName', productName);
+    formData.append('productPrice', productPrice);
+    formData.append('productCategory', productCategory);
+    formData.append('productDescription', productDescription);
+    formData.append('productImage', productImage);
+
+    createProductApi(formData)
+      .then((res) => {
+        if (res.data.success === 201) {
+          toast.success(res.data.message);
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (error.response.status === 400) {
+            toast.warning(error.response.data.message);
+          } else if (error.response.status === 401) {
+            toast.error(error.response.data.message);
+          } else {
+            toast.error("Something went wrong");
+          }
+        }
+      });
+  };
 
   return (
     <div className="p-4">
@@ -54,7 +61,7 @@ const AddProduct = () => {
               type="text"
               placeholder="Product Name"
               value={productName}
-              onChange={handleProductNameChange}
+              onChange={(e) => setProductName(e.target.value)}
             />
           </div>
           <div className="w-full md:w-1/2 px-3">
@@ -67,7 +74,7 @@ const AddProduct = () => {
               type="text"
               placeholder="Product Category"
               value={productCategory}
-              onChange={handleProductCategoryChange}
+              onChange={(e) => setProductCategory(e.target.value)}
             />
           </div>
         </div>
@@ -81,7 +88,7 @@ const AddProduct = () => {
             type="text"
             placeholder="Product Price"
             value={productPrice}
-            onChange={handleProductPriceChange}
+            onChange={(e) => setProductPrice(e.target.value)}
           />
         </div>
         <div className="mb-6">
@@ -93,7 +100,7 @@ const AddProduct = () => {
             id="productDescription"
             placeholder="Product Description"
             value={productDescription}
-            onChange={handleProductDescriptionChange}
+            onChange={(e) => setProductDescription(e.target.value)}
           />
         </div>
         <div className="mb-6">
@@ -104,10 +111,14 @@ const AddProduct = () => {
             className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="productImage"
             type="file"
-            onChange={handleProductImageChange}
+            onChange={handleImage}
           />
           {productImage && (
-            <img src={productImage} alt="Selected Product" className="mt-2 h-40 object-cover rounded" />
+            <img
+              src={URL.createObjectURL(productImage)}
+              alt="Selected Product"
+              className="mt-2 h-40 object-cover rounded"
+            />
           )}
         </div>
         <button
