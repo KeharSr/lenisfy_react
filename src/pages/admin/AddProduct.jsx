@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { createProductApi } from '../../apis/Api';
 
 const AddProduct = () => {
@@ -33,7 +33,7 @@ const AddProduct = () => {
       .catch((error) => {
         if (error.response) {
           if (error.response.status === 400) {
-            toast.warning(error.response.data.message);
+            toast.error(error.response.data.message);
           } else if (error.response.status === 401) {
             toast.error(error.response.data.message);
           } else {

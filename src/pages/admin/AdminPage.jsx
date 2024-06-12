@@ -5,6 +5,7 @@ import logo from '../../assets/images/applogo.png';
 import profilePic from '../../assets/images/profile.png';
 
 import AddProduct from './AddProduct';
+import ViewProduct from './ViewProduct';
 
 const AdminPage = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -62,12 +63,11 @@ const AdminPage = () => {
         <TabPanel>
           <AddProduct />
           
+          
         </TabPanel>
         <TabPanel>
          
-          <div className="text-center mt-8">
-            <h1>View-Products Content</h1>
-          </div>
+          <ViewProduct/>
         </TabPanel>
         <TabPanel>
           
