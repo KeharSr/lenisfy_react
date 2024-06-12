@@ -1,8 +1,5 @@
-
-
-
 import React, { useState } from 'react';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import { createProductApi } from '../../apis/Api';
 
 const AddProduct = () => {
@@ -29,7 +26,7 @@ const AddProduct = () => {
 
     createProductApi(formData)
       .then((res) => {
-        if (res.data.success === 201) {
+        if (res.data.success) {
           toast.success(res.data.message);
         }
       })
@@ -68,14 +65,16 @@ const AddProduct = () => {
             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="productCategory">
               Product Category
             </label>
-            <input
+            <select
               className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="productCategory"
-              type="text"
-              placeholder="Product Category"
               value={productCategory}
               onChange={(e) => setProductCategory(e.target.value)}
-            />
+            >
+              <option value="" disabled>Select Category</option>
+              <option value="Sunglasses">Sunglasses</option>
+              <option value="Power Glasses">Power Glasses</option>
+            </select>
           </div>
         </div>
         <div className="mb-6">
