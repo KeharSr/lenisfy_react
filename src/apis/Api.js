@@ -35,7 +35,15 @@ export const createProductApi = (data) => Api.post('/api/product/create', data)
 // Get All Products Api
 export const getAllProductsApi = () => Api.get('/api/product/get_all_products',config)
 
+
+// Update Product Api
+export const updateProduct = (id,data) => Api.put(`/api/product/update_product/${id}`,data,config)
+
 //delete product api
 export const deleteProduct = (id) => Api.delete(`/api/product/delete_product/${id}`,config)
+
+// Get Single Product Api
+export const getSingleProductApi = (id) => Api.get(`/api/product/get_single_product/${id}`,config)
+
 
 
