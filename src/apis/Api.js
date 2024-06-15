@@ -9,6 +9,12 @@ const Api = axios.create({
     }
 })
 
+const config = {
+    headers: {
+        
+        'authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+}
 // Test API 
 export const testApi = () => Api.get('/test')
 
@@ -17,11 +23,19 @@ export const testApi = () => Api.get('/test')
 
 export const registerUserApi = (data) => Api.post('/api/user/create', data)
 
+
+
 // Login Api
 export const loginUserApi = (data) => Api.post('/api/user/login', data)
 
 
 // Create Product Api
 export const createProductApi = (data) => Api.post('/api/product/create', data)
+
+// Get All Products Api
+export const getAllProductsApi = () => Api.get('/api/product/get_all_products',config)
+
+//delete product api
+export const deleteProduct = (id) => Api.delete(`/api/product/delete_product/${id}`,config)
 
 
