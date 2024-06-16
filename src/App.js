@@ -15,6 +15,8 @@ import Register from './pages/register/Register';
 import HomePage from './pages/homepage/HomePage';
 import Onboarding from './pages/onboarding/Onboarding';
 import AdminPage from './pages/admin/AdminPage';
+import AdminRoutes from './protected_routes/AdminRoutes';
+import UserRoutes from './protected_routes/UserRoutes';
 // import AddProduct from './pages/admin/AddProduct';
 
 function App() {
@@ -25,9 +27,16 @@ function App() {
         <Route path='/' element={<Onboarding />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/homepage' element={<HomePage />} />
+
+        {/* Admin Protected Routes */}
+        <Route element={<AdminRoutes/>}>
         <Route path='/admin' element={<AdminPage />} />
         {/* <Route path='/add-product' element={<AddProduct />} /> */}
+
+        {/* User Protected Routes */}
+        <Route  element={<UserRoutes />} />
+        <Route path='/home' element={<HomePage />} />
+        </Route>
       </Routes>
     </Router>
   );
