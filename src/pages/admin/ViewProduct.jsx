@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-hot-toast';
 import UpdateProduct from './UpdateProduct';
-import DeleteConfirmationDialog from '../../components/DeleteDialog/DeleteDialog'; // Import your custom dialog
+import DeleteConfirmationDialog from '../../components/DeleteDialog/DeleteDialog'; 
 
 const ViewProduct = () => {
   const [products, setProducts] = useState([]);
@@ -48,7 +48,7 @@ const ViewProduct = () => {
       .then((res) => {
         if (res.status) {
           toast.success(res.data.message);
-          fetchProducts(); // Refresh the product list after deletion
+          fetchProducts(); 
         }
       })
       .catch((error) => {

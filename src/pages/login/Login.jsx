@@ -1,11 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { useState,  } from 'react';
 import { Link } from 'react-router-dom';
 import loginui from '../../assets/images/loginui.png';
 import './Login.css';
 import { Toaster, toast } from 'react-hot-toast';
 import { loginUserApi } from '../../apis/Api';
 
+import { useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
@@ -14,6 +15,8 @@ const Login = () => {
 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+
+  const navigate = useNavigate();
 
   const validation = () => {
     let isValid = true;
@@ -60,6 +63,8 @@ const Login = () => {
 
        
         localStorage.setItem('user', convertedData)
+
+        navigate('/admin');
 
       }
     })

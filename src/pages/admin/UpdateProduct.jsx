@@ -91,7 +91,7 @@ const UpdateProduct = ({ isOpen, onRequestClose, productId, onUpdate }) => {
               required
             >
               <option value="sunglasses">SunGlasses</option>
-              <option value="powerlens">PowerGlasses</option>
+              <option value="powerglasses">PowerGlasses</option>
             </select>
           </div>
         </div>
