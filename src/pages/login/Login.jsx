@@ -64,7 +64,16 @@ const Login = () => {
        
         localStorage.setItem('user', convertedData)
 
-        navigate('/admin');
+        if(res.data.userData.isAdmin){
+          navigate('/admin');
+        }
+        else if(!res.data.userData.isAdmin){
+          navigate('/homepage');
+        }
+
+        else{
+          navigate('/login');
+        }
 
       }
     })
