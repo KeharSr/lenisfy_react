@@ -72,7 +72,7 @@ const Login = () => {
         }
 
         else{
-          navigate('/login');
+          navigate('/');
         }
 
       }

@@ -72,7 +72,7 @@ const AddProduct = () => {
               onChange={(e) => setProductCategory(e.target.value)}
             >
               <option value="" disabled>Select Category</option>
-              <option value="Sunglasses">Sunglasses</option>
+              <option value="Sun Glasses">Sun Glasses</option>
               <option value="Power Glasses">Power Glasses</option>
             </select>
           </div>

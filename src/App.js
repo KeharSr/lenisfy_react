@@ -32,10 +32,11 @@ function App() {
         <Route element={<AdminRoutes/>}>
         <Route path='/admin' element={<AdminPage />} />
         {/* <Route path='/add-product' element={<AddProduct />} /> */}
+        </Route>
 
         {/* User Protected Routes */}
-        <Route  element={<UserRoutes />} />
-        <Route path='/home' element={<HomePage />} />
+        <Route  element={<UserRoutes />} >
+        <Route path='/homepage' element={<HomePage />} />
         </Route>
       </Routes>
     </Router>

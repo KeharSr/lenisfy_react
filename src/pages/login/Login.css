@@ -1,15 +1,15 @@
 
 
    .login-container {
-    @apply min-h-screen flex items-center justify-center bg-gray-50;
+    @apply min-h-screen flex  items-start   justify-center bg-gray-50;
   }
   
   .login-box {
-    @apply bg-white flex rounded-2xl shadow-lg max-w-6xl;
+    @apply w-full bg-white flex flex-col-reverse md:flex-row rounded-2xl shadow-lg max-w-6xl md:m-auto;
   }
   
   .login-form {
-    @apply w-1/2 p-8 bg-blue-100 rounded-l-2xl flex flex-col justify-center;
+    @apply w-full max-w-md p-8 bg-blue-100 rounded-l-2xl flex flex-col justify-center;
   }
   
   .login-title {
@@ -41,7 +41,7 @@
   }
   
   .login-image {
-    @apply w-2/3 hidden md:flex items-center justify-center;
+    @apply   md:flex items-center justify-center;
   }
   
   .login-image img {
