@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import banner from '../../assets/images/registerui2.jpg';
 import { GrSecure } from 'react-icons/gr';
 import { IoFastFood } from 'react-icons/io5';
 import { GiFoodTruck } from 'react-icons/gi';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const Banner = () => {
+  useEffect(() => {
+    AOS.init({ duration: 1000 }); // Initialize AOS with options
+  }, []);
+
   return (
     <div className='min-h-[550px] flex justify-center items-center py-12 sm:py-0'>
       <div className='container'>
@@ -35,7 +41,7 @@ const Banner = () => {
                 <p className='text-lg'>Fast Delivery</p>
               </div>
               <div data-aos='fade-up' className='flex items-center gap-4'>
-                <GiFoodTruck className='text-4xl h-12 w-12 shadow-sm p-2 rounded-full bg-purple-200' />
+                <GiFoodTruck className='text-4xl h-12 w-12 shadow-sm p-2 rounded-full bg-yellow-200' />
                 <p className='text-lg'>Trusted Service</p>
               </div>
             </div>

@@ -45,5 +45,12 @@ export const deleteProduct = (id) => Api.delete(`/api/product/delete_product/${i
 // Get Single Product Api
 export const getSingleProductApi = (id) => Api.get(`/api/product/get_single_product/${id}`,config)
 
+// Get Products By Category Api
+// export const getProductsByCategoryApi = (category) => Api.get(`/api/product/get_products_by_category?`category`${category}`,config)
+
+// Get Products By Category Api
+export const getProductsByCategoryApi = (category) => Api.get(`/api/product/get_products_by_category?category=${category}`,config)
+
+
 
 
