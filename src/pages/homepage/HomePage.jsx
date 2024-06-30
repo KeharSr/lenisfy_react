@@ -54,6 +54,7 @@ import Hero from '../../components/Hero/Hero';
 import Products from '../../components/Products/Products';
 import { getAllProductsApi } from "../../apis/Api";
 import './HomePage.css';
+import Banner from "../../components/Banner/Banner";
 
 const HomePage = () => {
     const [products, setProducts] = useState([]);
@@ -91,6 +92,7 @@ const HomePage = () => {
                     ))}
                 </div>
             </div>
+            <Banner/>
         </>
     );
 };
