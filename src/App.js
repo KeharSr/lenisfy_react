@@ -17,6 +17,8 @@ import Onboarding from './pages/onboarding/Onboarding';
 import AdminPage from './pages/admin/AdminPage';
 import AdminRoutes from './protected_routes/AdminRoutes';
 import UserRoutes from './protected_routes/UserRoutes';
+import Addtocart from './pages/Cart/Cart';
+
 // import AddProduct from './pages/admin/AddProduct';
 
 function App() {
@@ -37,6 +39,10 @@ function App() {
         {/* User Protected Routes */}
         <Route  element={<UserRoutes />} >
         <Route path='/homepage' element={<HomePage />} />
+        <Route path='/addtocart' element={<Addtocart />} />
+        
+      
+
         </Route>
       </Routes>
     </Router>
