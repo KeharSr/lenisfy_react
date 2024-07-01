@@ -1,4 +1,6 @@
 
+
+
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/navbar/Navbar';
 import Hero from '../../components/Hero/Hero';
@@ -6,6 +8,7 @@ import Products from '../../components/Products/Products';
 import Banner from '../../components/Banner/Banner';
 import { getAllProductsApi, getProductsByCategoryApi } from "../../apis/Api"; // Update API function to fetch products by category
 import toast from 'react-hot-toast';
+import { FaSun, FaGlasses, FaThList } from 'react-icons/fa'; // Importing FontAwesome icons
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -51,25 +54,37 @@ const HomePage = () => {
     <>
       <Navbar />
       <Hero />
-      <div>
-        {/* Category filter buttons */}
-        <button onClick={() => handleCategoryFilter('All')}>All</button>
-        <button onClick={() => handleCategoryFilter('Sun Glasses')}>Sun Glasses</button>
-        <button onClick={() => handleCategoryFilter('Power Glasses')}>Power Glasses</button>
+      <div className="flex justify-center gap-4 mb-8">
+        <button 
+          className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition duration-200"
+          onClick={() => handleCategoryFilter('All')}
+        >
+          <FaThList className="text-xl text-gray-700" />
+        </button>
+        <button 
+          className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition duration-200"
+          onClick={() => handleCategoryFilter('Sun Glasses')}
+        >
+          <FaSun className="text-xl text-gray-700" />
+        </button>
+        <button 
+          className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition duration-200"
+          onClick={() => handleCategoryFilter('Power Glasses')}
+        >
+          <FaGlasses className="text-xl text-gray-700" />
+        </button>
       </div>
-      <h2>Available Products</h2>
-      <div className="row row-cols-1 row-cols-md-4 g-4">
+      <h2 className="text-center mt-8">Available Products</h2>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 p-4">
         {products.map((singleProduct) => (
-          <div className="col" key={singleProduct._id}>
+          <div className="p-4 border border-gray-200 rounded-lg bg-gray-50" key={singleProduct._id}>
             <Products productInformation={singleProduct} color={'red'} />
           </div>
         ))}
       </div>
-      <Banner /> 
+      <Banner />
     </>
   );
 };
 
 export default HomePage;
-
-
