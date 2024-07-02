@@ -51,6 +51,9 @@ export const getSingleProductApi = (id) => Api.get(`/api/product/get_single_prod
 // Get Products By Category Api
 export const getProductsByCategoryApi = (category) => Api.get(`/api/product/get_products_by_category?category=${category}`,config)
 
+// Add to Cart Api
+export const addToCartApi = (data) => Api.post('/api/cart/add_to_cart', data,config)
 
 
+export const getCartApi = () => Api.get('/api/cart/get_cart',config)
 

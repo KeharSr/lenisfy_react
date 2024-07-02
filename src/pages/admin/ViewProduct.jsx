@@ -53,7 +53,7 @@ const ViewProduct = () => {
       })
       .catch((error) => {
         if (error.response) {
-          if (error.response.status === 500) {
+          if (error.response.status === 400) {
             toast.error(error.response.data.message);
           } else if (error.response.status === 500) {
             toast.warning(error.response.data.message);

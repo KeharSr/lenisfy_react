@@ -2,110 +2,53 @@
 
 
 import React, { useEffect } from 'react';
+import 'aos/dist/aos.css';
+import AOS from 'aos';
+import { addToCartApi } from '../../apis/Api';
+import toast from 'react-hot-toast';
 
-const Products = ({ productInformation, color }) => {
+const Products = ({ productInformation, color,}) => {
   useEffect(() => {
-    // Initialize AOS when component mounts
-    const AOS = require('aos');
-    AOS.init({ duration: 1000 }); // Adjust duration as needed
+    AOS.init({ duration: 1000 });
   }, []);
 
   if (!productInformation) {
     return <div>Loading...</div>;
   }
 
-  const styles = {
-    
-                card: {
-                    width: '18rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '5px',
-                    overflow: 'hidden',
-                    position: 'relative',
-                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                    textAlign: 'center'
-                },
-                badge: {
-                    position: 'absolute',
-                    top: '10px',
-                    left: '10px',
-                    color: 'white',
-                    padding: '5px 10px',
-                    borderRadius: '5px',
-                    fontSize: '12px',
-                    backgroundColor: color
-                },
-                imageContainer: {
-                    width: '100%',
-                    height: '200px', // Fixed height for the image container
-                    overflow: 'hidden'
-                },
-                image: {
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover' // Ensures the image covers the container without stretching
-                },
-                body: {
-                    padding: '15px'
-                },
-                title: {
-                    fontSize: '18px',
-                    fontWeight: 'bold',
-                    marginBottom: '5px'
-                },
-                price: {
-                    fontSize: '16px',
-                    color: '#ff4d4d',
-                    marginBottom: '10px'
-                },
-                description: {
-                    fontSize: '14px',
-                    color: '#666',
-                    marginBottom: '20px'
-                },
-                button: {
-                    backgroundColor: '#ff8c00',
-                    color: 'white',
-                    border: 'none',
-                    padding: '10px',
-                    borderRadius: '5px',
-                    cursor: 'pointer',
-                    width: '100%',
-                    textTransform: 'uppercase',
-                    fontWeight: 'bold',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '10px'
-                },
-                buttonHover: {
-                    backgroundColor: '#ff7a00'
-                }
-            };
-  
+  // call add to cart from the api
+  const addToCart = async (productId) => {
+    addToCartApi({ productId }).then((res) => {
+      if (res.status === 201) {
+        toast.success('Product added to cart');
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+   
+  };
 
   return (
-    <div style={styles.card} data-aos='fade-up'>
-      <div style={styles.badge}>
+    <div className="w-72 border border-gray-300 rounded-lg overflow-hidden relative shadow-lg text-center" data-aos="fade-up">
+      <div className={`absolute top-2 left-2 text-white py-1 px-3 rounded text-xs`} style={{ backgroundColor: color }}>
         {productInformation.productCategory}
       </div>
-      <div style={styles.imageContainer}>
+      <div className="w-full h-52 overflow-hidden">
         <img
           src={`http://localhost:5000/products/${productInformation.productImage}`}
-          style={styles.image}
+          className="w-full h-full object-cover"
           alt={productInformation.productName}
         />
       </div>
-      <div style={styles.body}>
-        <h5 style={styles.title}>{productInformation.productName}</h5>
-        <div style={styles.price}>{productInformation.productPrice}</div>
-        <p style={styles.description}>
+      <div className="p-4">
+        <h5 className="text-lg font-bold mb-1">{productInformation.productName}</h5>
+        <div className="text-red-500 text-md mb-2">{productInformation.productPrice}</div>
+        <p className="text-sm text-gray-600 mb-5">
           {productInformation.productDescription.slice(0, 40)}...
         </p>
         <button
-          style={styles.button}
-          onMouseOver={(e) => e.currentTarget.style.backgroundColor = styles.buttonHover.backgroundColor}
-          onMouseOut={(e) => e.currentTarget.style.backgroundColor = styles.button.backgroundColor}
+          className="bg-orange-500 text-white border-none py-2 rounded w-full uppercase font-bold flex items-center justify-center gap-2 hover:bg-orange-600"
+          onClick={() => addToCart(productInformation._id)}
         >
           <i className="fas fa-shopping-cart"></i> Add to Cart
         </button>
