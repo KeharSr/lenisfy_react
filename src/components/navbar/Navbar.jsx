@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import applogo from '../../assets/images/applogo.png';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -38,7 +39,7 @@ const Navbar = () => {
                         <img className="w-8 h-8 rounded-full" src={profilePicture} alt="user photo" />
                     </button>
                     {/* Dropdown menu */}
-                    <div className={`absolute right-0 top-full mt-1 w-40 origin-top-right rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none ${dropdownVisible ? 'block' : 'hidden'}`} id="user-dropdown">
+                    <div className={`absolute right-0 top-full mt-1 w-40 origin-top-right rounded-md shadow-lg z-50 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none ${dropdownVisible ? 'block' : 'hidden'}`} id="user-dropdown">
                         <div className="px-5 py-3">
                             <span className="block text-sm text-gray-900 dark:text-white">Kehar Sr</span>
                             
@@ -82,10 +83,13 @@ const Navbar = () => {
                             <a href="#" className="block py-1 px-2 text-black md:text-black md:p-0 dark:text-white md:dark:text-white active" aria-current="page">Home</a>
                         </li>
                         <li>
-                            <a href="#" className="block py-1 px-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
+                            <a href="/addtocart" className="block py-1 px-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
                         </li>
                         <li>
-                            <a href="#" className="block py-1 px-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Services</a>
+                            <Link to="/sunglasses" className="block py-1 px-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">sunglass</Link>
+                        </li>
+                        <li>
+                            <Link to="/powerglasses" className="block py-1 px-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">powerglasses</Link>
                         </li>
                         <li>
                             <a href="#" className="block py-1 px-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pricing</a>

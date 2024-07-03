@@ -18,12 +18,17 @@ import AdminPage from './pages/admin/AdminPage';
 import AdminRoutes from './protected_routes/AdminRoutes';
 import UserRoutes from './protected_routes/UserRoutes';
 import Addtocart from './pages/Cart/Cart';
+import Products from './pages/Products/Products';
+import Sunglasses from './pages/Sunglasses/Sunglasses';
+import Navbar from './components/navbar/Navbar';
+import PowerGlasses from './pages/Sunglasses/PowerGlasses';
 
 // import AddProduct from './pages/admin/AddProduct';
 
 function App() {
   return (
     <Router>
+            <Navbar  />
       <Toaster />
       <Routes>
         <Route path='/' element={<Onboarding />} />
@@ -40,6 +45,9 @@ function App() {
         <Route  element={<UserRoutes />} >
         <Route path='/homepage' element={<HomePage />} />
         <Route path='/addtocart' element={<Addtocart />} />
+        <Route path='/sunglasses' element={<Sunglasses />} />
+        <Route path='/powerglasses' element={<PowerGlasses />} />
+        
         
       
 
