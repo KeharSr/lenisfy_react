@@ -7,7 +7,11 @@ const AddProduct = () => {
   const [productCategory, setProductCategory] = useState('');
   const [productPrice, setProductPrice] = useState('');
   const [productDescription, setProductDescription] = useState('');
+  //quantity
+  const [productQuantity, setProductQuantity] = useState('');
+ 
   const [productImage, setProductImage] = useState('');
+
 
   const handleImage = (event) => {
     const file = event.target.files[0];
@@ -22,6 +26,7 @@ const AddProduct = () => {
     formData.append('productPrice', productPrice);
     formData.append('productCategory', productCategory);
     formData.append('productDescription', productDescription);
+    formData.append('productQuantity', productQuantity);
     formData.append('productImage', productImage);
 
     createProductApi(formData)
@@ -81,6 +86,7 @@ const AddProduct = () => {
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="productPrice">
             Product Price
           </label>
+          
           <input
             className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="productPrice"
@@ -90,6 +96,22 @@ const AddProduct = () => {
             onChange={(e) => setProductPrice(e.target.value)}
           />
         </div>
+        
+        
+        <div className="mb-6">
+          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="productQuantity">
+            Product Quantity
+          </label>
+          <input
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            id="productQuantity"
+            type="text"
+            placeholder="Product Quantity"
+            value={productQuantity}
+            onChange={(e) => setProductQuantity(e.target.value)}
+          />
+        </div>
+
         <div className="mb-6">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="productDescription">
             Product Description

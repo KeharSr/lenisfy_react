@@ -3,7 +3,7 @@ import { getProductsByCategoryApi } from '../../apis/Api'; // Import your API fu
 import Products from '../Products/Products';
 import toast from 'react-hot-toast';
 
-const Sunglasses = () => {
+const SunGlasses = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -43,4 +43,4 @@ const Sunglasses = () => {
   );
 };
 
-export default Sunglasses;
+export default SunGlasses;

@@ -9,6 +9,7 @@ const UpdateProduct = ({ isOpen, onRequestClose, productId, onUpdate }) => {
   const [productName, setProductName] = useState('');
   const [productPrice, setProductPrice] = useState('');
   const [productCategory, setProductCategory] = useState('');
+  const [productQuantity, setProductQuantity] = useState('');
   const [productDescription, setProductDescription] = useState('');
   const [productNewImage, setProductNewImage] = useState(null);
   const [previewNewImage, setPreviewNewImage] = useState(null);
@@ -21,6 +22,7 @@ const UpdateProduct = ({ isOpen, onRequestClose, productId, onUpdate }) => {
           setProductName(res.data.product.productName);
           setProductPrice(res.data.product.productPrice);
           setProductCategory(res.data.product.productCategory);
+          setProductQuantity(res.data.product.productQuantity);
           setProductDescription(res.data.product.productDescription);
           setOldImage(res.data.product.productImage);
         })
@@ -42,6 +44,7 @@ const UpdateProduct = ({ isOpen, onRequestClose, productId, onUpdate }) => {
     formData.append('productName', productName);
     formData.append('productPrice', productPrice);
     formData.append('productCategory', productCategory);
+    formData.append('productQuantity', productQuantity);
     formData.append('productDescription', productDescription);
     if (productNewImage) {
       formData.append('productImage', productNewImage);
@@ -114,6 +117,18 @@ const UpdateProduct = ({ isOpen, onRequestClose, productId, onUpdate }) => {
             required
           />
         </div>
+        
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">Quantity</label>
+          <input
+            type="number"
+            value={productQuantity}
+            onChange={(e) => setProductQuantity(e.target.value)}
+            className="w-full px-3 py-2 border rounded"
+            required
+          />
+        </div>
+
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">Current Image</label>
           <div className="flex justify-center items-center mb-2">
