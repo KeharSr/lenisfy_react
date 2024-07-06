@@ -1,15 +1,8 @@
-
-
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route
-} from 'react-router-dom';
+import {BrowserRouter as Router,Routes,Route} from 'react-router-dom';
 
-// Toast Config
+
 import { Toaster } from 'react-hot-toast';
-
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import HomePage from './pages/homepage/HomePage';
@@ -18,18 +11,13 @@ import AdminPage from './pages/admin/AdminPage';
 import AdminRoutes from './protected_routes/AdminRoutes';
 import UserRoutes from './protected_routes/UserRoutes';
 import Addtocart from './pages/Cart/Cart';
-
-import Navbar from './components/navbar/Navbar';
 import PowerGlasses from './pages/glasses/PowerGlasses';
 import ProductDetails from './pages/product_details/ProductDetails';
 import SunGlasses from './pages/glasses/Sunglasses';
 
-// import AddProduct from './pages/admin/AddProduct';
-
 function App() {
   return (
     <Router>
-            <Navbar  />
       <Toaster />
       <Routes>
         <Route path='/' element={<Onboarding />} />
@@ -49,16 +37,9 @@ function App() {
         <Route path='/sunglasses' element={<SunGlasses />} />
         <Route path='/powerglasses' element={<PowerGlasses />} />
         <Route path='/product/:id' element={<ProductDetails />} />
-        
-
-        
-        
-      
-
         </Route>
       </Routes>
     </Router>
   );
 }
-
 export default App;

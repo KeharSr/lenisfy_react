@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getSingleProductApi, addToCartApi } from '../../apis/Api';
 import toast from 'react-hot-toast';
+import Navbar from '../../components/navbar/Navbar';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -49,9 +50,12 @@ const ProductDetails = () => {
 
   const addToCart = () => {
     if (!isOutStock && product && quantity > 0) {
-      addToCartApi({ productId: product._id, }).then((res) => {
+      addToCartApi({ productId: product._id,quantity:quantity }).then((res) => {
         if (res.status === 201) {
           toast.success('Product added to cart');
+        }
+        else {
+          toast.error(res.data.message);
         }
       }).catch((err) => {
         console.log(err);
@@ -70,6 +74,8 @@ const ProductDetails = () => {
   }
 
   return (
+    <>
+    <Navbar/>
     <div className="container mx-auto p-4 flex flex-col md:flex-row">
       <div className="md:w-1/2 mb-4 md:mb-0">
         <img src={`http://localhost:5000/products/${product.productImage}`}
@@ -129,6 +135,7 @@ const ProductDetails = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -7,6 +7,7 @@ import image from '../../assets/images/registerui2.jpg';
 import logo from '../../assets/images/applogo.png'; 
 import './Onboarding.css'; 
 
+
 const Onboarding = () => {
   const navigate = useNavigate();
 
@@ -19,7 +20,8 @@ const Onboarding = () => {
   };
 
   return (
-    <div className="relative flex h-screen bg-gray-900 overflow-hidden">
+    <>
+      <div className="relative flex h-screen bg-gray-900 overflow-hidden">
       <div
         className="absolute inset-0 bg-cover bg-center bg-fixed animate-bg-motion"
         style={{ backgroundImage: `url(${image})` }}
@@ -46,6 +48,7 @@ const Onboarding = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
