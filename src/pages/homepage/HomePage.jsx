@@ -37,9 +37,9 @@ const HomePage = () => {
       <Navbar/>     
       <Hero />
       <h2 className="text-center mt-8 text-2xl font-semibold">Available Products</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 p-4">
-        {products.slice(0, 2).map((singleProduct) => ( // Limit to 2 products
-          <div className="p-4 border border-gray-200 rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-200" key={singleProduct._id}>
+      <div className="flex flex-row gap-4">
+        {products.slice(0, 4).map((singleProduct) => ( // Limit to 2 products
+          <div className="w-full max-w-96 p-4 border border-gray-200 rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-200" key={singleProduct._id}>
             <Products productInformation={singleProduct} color={'red'} />
           </div>
         ))}

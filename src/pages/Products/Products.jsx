@@ -29,7 +29,7 @@ const Products = ({ productInformation, color }) => {
   };
 
   return (
-    <div className="w-72 border border-gray-300 rounded-lg overflow-hidden relative shadow-lg text-center" data-aos="fade-up">
+    <div className="w-80 border border-gray-300 rounded-lg overflow-hidden relative shadow-lg text-center" data-aos="fade-up">
       <div className="absolute top-2 left-2 text-white py-1 px-3 rounded text-xs" style={{ backgroundColor: color }}>
         {productInformation.productCategory}
       </div>
@@ -49,7 +49,7 @@ const Products = ({ productInformation, color }) => {
       </div>
       <div className="p-4">
         <h5 className="text-lg font-bold mb-1">{productInformation.productName}</h5>
-        <div className="text-gray-500 text-md mb-2">Smart Watches</div>
+        <div className="text-gray-500 text-md mb-2">{productInformation.productCategory}</div>
         <div className="text-red-500 text-md mb-2">${productInformation.productPrice}</div>
         <p className="text-sm text-gray-600 mb-5">{productInformation.productDescription}</p>
         <Link to={"/addtocart"}>

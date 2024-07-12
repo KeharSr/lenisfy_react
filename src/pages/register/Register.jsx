@@ -11,6 +11,7 @@ function Register() {
     const [lastName, setLastName] = useState('');
     const [userName, setUsername] = useState('');
     const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -18,6 +19,7 @@ function Register() {
     const [lastNameError, setLastNameError] = useState('');
     const [usernameError, setUsernameError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [phoneNumberError, setPhoneNumberError] = useState('')
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
@@ -46,6 +48,12 @@ function Register() {
             isValid = false;
         } else if (emailError) {
             setEmailError('');
+        }
+        if(!phoneNumber.trim()){
+            setPhoneNumberError('Number is required');
+            isValid = false
+        }else if(phoneNumberError){
+            setPhoneNumberError('');
         }
         if (!password.trim()) {
             setPasswordError('Password is required');
@@ -82,6 +90,7 @@ function Register() {
             lastName: lastName,
             userName: userName,
             email: email,
+            phoneNumber:phoneNumber,
             password: password,
         };
 
@@ -148,6 +157,17 @@ function Register() {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                             {emailError && <p className="error-message">{emailError}</p>}
+                        </div>
+                        <div className="input-container">
+                            <input
+                                className="register-input"
+                                type="phone"
+                                name="phone"
+                                placeholder="Phone Number"
+                                value={phoneNumber}
+                                onChange={(e) => setPhoneNumber(e.target.value)}
+                            />
+                            {phoneNumberError && <p className="error-message">{phoneNumberError}</p>}
                         </div>
                         <div className="input-container">
                             <input
