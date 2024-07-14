@@ -56,6 +56,8 @@ export const addToCartApi = (data) => Api.post('/api/cart/add_to_cart', data,con
 
 export const getCartApi = () => Api.get('/api/cart/get_cart',config)
 
+//place order api
+export const placeOrderApi = (data) => Api.post('/api/order/place_order',data,config)
 
 
 

@@ -14,6 +14,7 @@ import Addtocart from './pages/Cart/Cart';
 import PowerGlasses from './pages/glasses/PowerGlasses';
 import ProductDetails from './pages/product_details/ProductDetails';
 import SunGlasses from './pages/glasses/Sunglasses';
+import PlaceOrder from './pages/placeorder/PlaceOrder';
 
 function App() {
   return (
@@ -37,6 +38,8 @@ function App() {
         <Route path='/sunglasses' element={<SunGlasses />} />
         <Route path='/powerglasses' element={<PowerGlasses />} />
         <Route path='/product/:id' element={<ProductDetails />} />
+        <Route path='/placeorder' element={<PlaceOrder />} />
+
         </Route>
       </Routes>
     </Router>
