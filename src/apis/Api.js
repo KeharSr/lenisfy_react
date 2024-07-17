@@ -9,6 +9,16 @@ const Api = axios.create({
     }
 })
 
+
+const config2 = {
+    headers: {
+        
+        'authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+    }
+}
+
+
 const config = {
     headers: {
         
@@ -57,7 +67,7 @@ export const addToCartApi = (data) => Api.post('/api/cart/add_to_cart', data,con
 export const getCartApi = () => Api.get('/api/cart/get_cart',config)
 
 //place order api
-export const placeOrderApi = (data) => Api.post('/api/order/place_order',data,config)
+export const placeOrderApi = (data) => Api.post('/api/order/place_order',data,config2)
 
 
 

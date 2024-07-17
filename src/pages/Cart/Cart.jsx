@@ -1,10 +1,8 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { getCartApi } from '../../apis/Api';
 import Navbar from '../../components/navbar/Navbar';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { json, Link } from 'react-router-dom';
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -94,7 +92,9 @@ const Cart = () => {
                 <span>Subtotal:</span>
                 <span>Rs. {subtotal.toFixed(2)}</span>
               </div>
-              <Link to={"/placeorder"}>
+              <Link to={
+               `/placeorder/${JSON.stringify(cart)}`
+              }>
               <button className="mt-4 bg-orange-500 text-white w-full py-2 rounded hover:bg-orange-600 transition-colors duration-300">
                 Proceed to Buy
               </button>

@@ -4,6 +4,7 @@ import Products from '../Products/Products';
 import toast from 'react-hot-toast';
 import Navbar from '../../components/navbar/Navbar';
 
+
 const SunGlasses = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,6 +34,7 @@ const SunGlasses = () => {
   return (
     <>
     <Navbar/>
+    
     <div>
       <h2 className="text-center mt-8">Sunglasses</h2>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 p-4">

@@ -44,7 +44,7 @@ const Products = ({ productInformation, color }) => {
         />
         <div className="absolute top-2 left-2 text-gray-700 flex items-center">
           <i className="far fa-heart"></i>
-          <span className="ml-1">234</span>
+          
         </div>
       </div>
       <div className="p-4">

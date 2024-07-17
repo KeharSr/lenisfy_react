@@ -16,8 +16,10 @@ import ProductDetails from './pages/product_details/ProductDetails';
 import SunGlasses from './pages/glasses/Sunglasses';
 import PlaceOrder from './pages/placeorder/PlaceOrder';
 
+
 function App() {
   return (
+    
     <Router>
       <Toaster />
       <Routes>
@@ -38,11 +40,12 @@ function App() {
         <Route path='/sunglasses' element={<SunGlasses />} />
         <Route path='/powerglasses' element={<PowerGlasses />} />
         <Route path='/product/:id' element={<ProductDetails />} />
-        <Route path='/placeorder' element={<PlaceOrder />} />
+        <Route path='/placeorder/:cart' element={<PlaceOrder />} />
 
         </Route>
       </Routes>
     </Router>
+    
   );
 }
 export default App;
