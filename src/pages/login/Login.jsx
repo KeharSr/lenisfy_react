@@ -96,7 +96,7 @@ const Login = () => {
               />
               {passwordError && <p className="login-error-message">{passwordError}</p>}
               <p className="text-right mt-2">
-                <Link to="/forgot-password" className="text-blue-600 hover:underline text-sm">
+                <Link to="/forgotpassword" className="text-blue-600 hover:underline text-sm">
                   Forgot Password?
                 </Link>
               </p>

@@ -78,7 +78,12 @@ export const getAllOrdersApi = () => Api.get('/api/order/get_all_orders',config)
 // order status update api
 export const updateOrderStatusApi = (id,data) => Api.post(`/api/order/update_order_status/${id}`,data,config)
 
+//forgot password
+export const forgotPasswordApi = (data) =>
+  Api.post('/api/user/forgot_password', data);
 
+// verify otp
+export const verifyOtpApi = (data) => Api.post('/api/user/verify_otp', data);
 
 
 
