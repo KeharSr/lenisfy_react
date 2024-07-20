@@ -9,6 +9,9 @@ import { loginUserApi } from '../../apis/Api';
 import { useNavigate } from 'react-router-dom';
 
 
+
+
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,8 +37,6 @@ const Login = () => {
     return isValid;
   };
 
- 
-
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -48,36 +49,22 @@ const Login = () => {
         "password": password
     }
 
-    loginUserApi(data).then((res)=>{
-      if(res.data.sucess===false){
+    loginUserApi(data).then((res) => {
+      if(res.data.sucess === false){
         toast.error(res.data.message)
       }
       else{
         toast.success(res.data.message)
-
-        
         localStorage.setItem('token', res.data.token)
-
-        
         const convertedData = JSON.stringify(res.data.userData)
-
-       
         localStorage.setItem('user', convertedData)
 
-        if(res.data.userData.isAdmin){
-          navigate('/admin');
-        }
-        else if(!res.data.userData.isAdmin){
-          navigate('/homepage');
-        }
-
-        else{
-          navigate('/');
-        }
-
+        navigate(res.data.userData.isAdmin ? '/admin' : '/homepage');
       }
-    })
-}
+    }).catch(error => {
+      toast.error('Login failed. Please try again.');
+    });
+  };
 
   return (
     <div className="login-container">
@@ -86,20 +73,14 @@ const Login = () => {
         <div className="login-form">
           <h2 className="login-title">Login</h2>
           <p className="login-subtitle">Please Login to Continue</p>
-
           <form onSubmit={handleLogin} className="login-fields">
             <div className="input-container">
-
               <input
                 onChange={(e) => setEmail(e.target.value)}
                 className="login-input"
                 type="text"
-
-
                 name="email"
-
                 value={email}
-
                 placeholder="Email"
               />
               {emailError && <p className="login-error-message">{emailError}</p>}
@@ -114,12 +95,16 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
               {passwordError && <p className="login-error-message">{passwordError}</p>}
+              <p className="text-right mt-2">
+                <Link to="/forgot-password" className="text-blue-600 hover:underline text-sm">
+                  Forgot Password?
+                </Link>
+              </p>
             </div>
             <button type="submit" className="login-button">
               Login
             </button>
           </form>
-
           <div className="register-link">
             <p>
               Don't have an account?{' '}
@@ -129,7 +114,6 @@ const Login = () => {
             </p>
           </div>
         </div>
-
         <div className="login-image">
           <img src={loginui} alt="Login" />
         </div>

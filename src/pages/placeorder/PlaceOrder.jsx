@@ -1,15 +1,14 @@
 
-
 import React, { useEffect, useState } from 'react';
-import { placeOrderApi } from '../../apis/Api'; 
-
+import { placeOrderApi } from '../../apis/Api';
 import { toast } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
+import Navbar from '../../components/navbar/Navbar';
 
 const PlaceOrder = () => {
     const [cart, setCart] = useState([]);
     const [subtotal, setSubtotal] = useState(0);
-    const params= useParams();
+    const params = useParams();
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -20,52 +19,39 @@ const PlaceOrder = () => {
         zipCode: '',
         country: '',
         phone: '',
-        deliveryFee: 40.00 // This can be a fixed or dynamically calculated value
+        deliveryFee: 40.00
     });
 
     useEffect(() => {
-        console.log(params);
-        
         const carts = JSON.parse(params.cart);
-        console.log(carts);
-        if(params.cart){
+        if (params.cart) {
             setCart(JSON.parse(params.cart));
-            setSubtotal(0);
-            for (let i = 0; i < carts.length; i++) {
-                setSubtotal(prev => prev + (carts[i].productId.productPrice * carts[i].quantity));
-            }
+            setSubtotal(carts.reduce((sum, item) => sum + (item.productId.productPrice * item.quantity), 0));
         }
-    }, [
-        params
-    ]);
+    }, [params]);
 
-    // Function to handle changes in form inputs
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    // Function to validate order data before submission
     const validateOrderData = () => {
         const { firstName, lastName, email, street, city, state, zipCode, country, phone } = formData;
         if (!firstName || !lastName || !email || !street || !city || !state || !zipCode || !country || !phone) {
-            alert('Please fill all the fields.');
+            toast.error('Please fill all the fields.');
             return false;
         }
         if (!cart.length || cart.some(product => !product.productId || !product.productId._id || product.quantity <= 0)) {
-            alert('No products added to the order or invalid product data.');
+            toast.error('No products added to the order or invalid product data.');
             return false;
         }
         return true;
     };
 
-    // Function to handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(cart);
-        if (!validateOrderData()) {
-            return; // Stop submission if validation fails
-        }
+        if (!validateOrderData()) return;
+        
         const total = subtotal + formData.deliveryFee;
         const orderData = {
             products: cart.map(product => ({
@@ -91,51 +77,70 @@ const PlaceOrder = () => {
     };
 
     return (
-        <div className="bg-gray-100 p-8">
-            <form className='place-order flex justify-between' onSubmit={handleSubmit}>
-                <div className="place-order-left w-1/2 pr-4">
-                    <p className="title font-bold text-lg mb-4">Delivery Information</p>
-                    {Object.entries(formData).map(([key, value]) => key !== 'deliveryFee' && (
-                        <input
-                            key={key}
-                            type={key === 'email' ? 'email' : 'text'}
-                            name={key}
-                            placeholder={key.charAt(0).toUpperCase() + key.slice(1).replace(/[A-Z]/g, ' $&')}
-                            className='w-full p-3 mb-4 border border-gray-300 rounded'
-                            onChange={handleChange}
-                            value={value}
-                        />
-                    ))}
-                </div>
-                <div className="place-order-right w-1/2 pl-4 bg-white p-4 shadow-lg">
-                    <p className="title font-bold text-lg mb-4">Cart Totals</p>
-                    {cart.map((product, index) => (
-                        <div key={index} className="flex justify-between text-lg mb-2">
-                            <span>{product.productId.productName} x {product.quantity}</span>
-                            <span>${(product.productId.productPrice * product.quantity).toFixed(2)}</span>
+        <>
+        <Navbar/>
+        <div className="bg-gradient-to-br from-purple-100 to-indigo-100 min-h-screen p-4 md:p-8 lg:p-12">
+            <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+                <div className="md:flex">
+                    <div className="md:w-1/2 p-6 md:p-8 lg:p-12">
+                        <h2 className="text-3xl font-bold text-gray-800 mb-6">Delivery Information</h2>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            {Object.entries(formData).map(([key, value]) => key !== 'deliveryFee' && (
+                                <div key={key}>
+                                    <label htmlFor={key} className="block text-sm font-medium text-gray-700 mb-1">
+                                        {key.charAt(0).toUpperCase() + key.slice(1).replace(/[A-Z]/g, ' $&')}
+                                    </label>
+                                    <input
+                                        id={key}
+                                        type={key === 'email' ? 'email' : 'text'}
+                                        name={key}
+                                        value={value}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                    />
+                                </div>
+                            ))}
+                        </form>
+                    </div>
+                    <div className="md:w-1/2 bg-indigo-100 p-6 md:p-8 lg:p-12">
+                        <h2 className="text-3xl font-bold text-gray-800 mb-6">Order Summary</h2>
+                        <div className="space-y-4">
+                            {cart.map((product, index) => (
+                                <div key={index} className="flex justify-between items-center">
+                                    <span className="text-gray-600">{product.productId.productName} x {product.quantity}</span>
+                                    <span className="font-semibold">${(product.productId.productPrice * product.quantity).toFixed(2)}</span>
+                                </div>
+                            ))}
+                            <div className="border-t pt-4">
+                                <div className="flex justify-between items-center">
+                                    <span className="text-gray-600">Subtotal</span>
+                                    <span className="font-semibold">${subtotal.toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between items-center mt-2">
+                                    <span className="text-gray-600">Delivery Fee</span>
+                                    <span className="font-semibold">${formData.deliveryFee.toFixed(2)}</span>
+                                </div>
+                            </div>
+                            <div className="border-t pt-4">
+                                <div className="flex justify-between items-center text-xl font-bold">
+                                    <span>Total</span>
+                                    <span>${(subtotal + formData.deliveryFee).toFixed(2)}</span>
+                                </div>
+                            </div>
                         </div>
-                    ))}
-                    <div className="flex justify-between text-lg mb-2">
-                        <span>Subtotal:</span>
-                        <span>${subtotal.toFixed(2)}</span>
+                        <button
+                            type="submit"
+                            onClick={handleSubmit}
+                            className="w-full mt-8 bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+                        >
+                            Place Order
+                        </button>
                     </div>
-                    <div className="flex justify-between text-lg mb-2">
-                        <span>Delivery Fee:</span>
-                        <span>${formData.deliveryFee.toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between font-bold text-lg mb-4">
-                        <span>Total:</span>
-                        <span>${(subtotal + formData.deliveryFee).toFixed(2)}</span>
-                    </div>
-                    <button type="submit" className='w-full bg-red-500 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg'>
-                        Proceed to Payment
-                    </button>
                 </div>
-            </form>
+            </div>
         </div>
+        </>
     );
 }
 
 export default PlaceOrder;
-
-

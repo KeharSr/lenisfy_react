@@ -60,22 +60,24 @@ const ViewOrder = () => {
     };
 
     //update order status
-    const handleOrderStatusChange = (orderId, status) => {
-        updateOrderStatusApi(orderId, { status })
-            .then((res) => {
-                if (res.data.success) {
-                    toast.success(res.data.message);
-                    fetchOrders();
-                } else {
-                    toast.error(res.data.message);
-                }
-            })
-            .catch((error) => {
-                console.error('Error updating order status:', error);
-                toast.error('Error updating order status: ' + (error.response?.data?.message || error.message || 'Unknown error'));
-            });
+    const statusHandler = async (e, orderId) => {
+        const newStatus = { status: e.target.value };
+        try {
+            const response = await updateOrderStatusApi(orderId, newStatus);
+            if (response.data.success) {
+                // Handle successful status update
+                toast.log('Status updated successfully:', response.data);
+            } else {
+                // Handle failure scenario, although this will typically be caught by the catch block
+                toast.error('Failed to update status:', response.data.message);
+            }
+        } catch (error) {
+            toast.error('Error updating status:', error);
+            // Handle errors, possibly updating UI to show an error message
+        }
     };
-
+    
+    
     
     return (
         <div className="container mx-auto px-4 py-8">
@@ -130,10 +132,7 @@ const ViewOrder = () => {
                                                 </p>
                                             </div>
                                             <h3 className="text-lg font-semibold mb-3 text-gray-700">Order Status</h3>
-                                            <select 
-                                                value={order.status}
-                                                onChange={(e) => handleOrderStatusChange(order._id, e.target.value)} 
-                                                
+                                            <select onChange={(e) => statusHandler(e, order._id)} value={order.status}
                                              className="w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                                                 <option>Pending</option>
                                                 <option>Delivered</option>
@@ -153,3 +152,5 @@ const ViewOrder = () => {
 };
 
 export default ViewOrder;
+
+
