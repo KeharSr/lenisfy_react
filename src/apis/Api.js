@@ -75,6 +75,8 @@ export const getSingleOrderApi = (id) => Api.get(`/api/order/get_single_order/${
 // get all orders api
 export const getAllOrdersApi = () => Api.get('/api/order/get_all_orders',config)
 
+// order status update api
+export const updateOrderStatusApi = (id,data) => Api.post(`/api/order/update_order_status/${id}`,data,config)
 
 
 

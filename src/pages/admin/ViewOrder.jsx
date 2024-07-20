@@ -1,10 +1,15 @@
+
+
 import React, { useState, useEffect } from 'react';
-import { getAllOrdersApi } from '../../apis/Api';
+import { getAllOrdersApi, updateOrderStatusApi } from '../../apis/Api';
+import { toast } from 'react-hot-toast';
 
 const ViewOrder = () => {
     const [orders, setOrders] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [expandedOrder, setExpandedOrder] = useState(null);
+   
 
     useEffect(() => {
         fetchOrders();
@@ -30,51 +35,118 @@ const ViewOrder = () => {
     };
 
     if (isLoading) {
-        return <div className="text-center mt-5">Loading orders...</div>;
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900"></div>
+            </div>
+        );
     }
 
     if (error) {
-        return <div className="text-center text-red-500 mt-5">Error: {error}</div>;
+        return (
+            <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 m-4" role="alert">
+                <p className="font-bold">Error</p>
+                <p>{error}</p>
+            </div>
+        );
     }
 
     const formatAddress = (address) => {
-        // Combining the address fields into a single string
-        return `${address.firstName},${address.street}, ${address.city}, ${address.state} ${address.zipCode}, ${address.country}`;
+        return `${address.firstName}, ${address.street}, ${address.city}, ${address.state} ${address.zipCode}, ${address.country}`;
     };
 
+    const toggleOrderExpansion = (orderId) => {
+        setExpandedOrder(expandedOrder === orderId ? null : orderId);
+    };
+
+    //update order status
+    const handleOrderStatusChange = (orderId, status) => {
+        updateOrderStatusApi(orderId, { status })
+            .then((res) => {
+                if (res.data.success) {
+                    toast.success(res.data.message);
+                    fetchOrders();
+                } else {
+                    toast.error(res.data.message);
+                }
+            })
+            .catch((error) => {
+                console.error('Error updating order status:', error);
+                toast.error('Error updating order status: ' + (error.response?.data?.message || error.message || 'Unknown error'));
+            });
+    };
+
+    
     return (
-        <div className="container mx-auto mt-10 p-4">
-            <h1 className="text-xl font-bold mb-5">View Orders</h1>
+        <div className="container mx-auto px-4 py-8">
+            <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center text-gray-800">Order Management</h1>
             {orders.length > 0 ? (
-                orders.map((order) => (
-                    <div key={order._id} className="bg-white p-6 rounded-lg shadow mb-4">
-                        <div className="mb-2 font-bold text-lg">
-                            Ordered by: {order.userId} {/* Display the user's name */}
+                <div className="space-y-4 md:space-y-6">
+                    {orders.map((order) => (
+                        <div key={order._id} className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:shadow-lg">
+                            <div 
+                                className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 sm:p-6 cursor-pointer hover:bg-gray-50"
+                                onClick={() => toggleOrderExpansion(order._id)}
+                            >
+                                <div className="mb-2 sm:mb-0">
+                                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Order #{order._id.slice(-6)}</h2>
+                                    <p className="text-sm text-gray-600">Placed by: {order.userId}</p>
+                                </div>
+                                <div className="flex items-center space-x-4">
+                                    <span className="font-bold text-lg text-green-600">${order.totalPrice.toFixed(2)}</span>
+                                    <svg className={`w-6 h-6 text-gray-600 transform transition-transform ${expandedOrder === order._id ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+                            </div>
+                            {expandedOrder === order._id && (
+                                <div className="p-4 sm:p-6 bg-gray-50 border-t border-gray-200">
+                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                        <div>
+                                            <h3 className="text-lg font-semibold mb-3 text-gray-700">Order Details</h3>
+                                            <div className="space-y-3">
+                                                {order.products.map(product => (
+                                                    <div key={product.productId._id} className="flex items-center space-x-4 bg-white p-3 rounded-lg shadow-sm">
+                                                        <img src={`http://localhost:5000/products/${product.productId.productImage}`} alt={product.productId.productName} className="w-16 h-16 object-cover rounded-md" />
+                                                        <div className="flex-grow">
+                                                            <p className="font-semibold text-gray-800">{product.productId.productName}</p>
+                                                            <p className="text-sm text-gray-600">Quantity: {product.quantity}</p>
+                                                        </div>
+                                                        <div className="text-right">
+                                                            <p className="font-semibold text-gray-800">${(product.productId.productPrice * product.quantity).toFixed(2)}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h3 className="text-lg font-semibold mb-3 text-gray-700">Shipping Information</h3>
+                                            <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
+                                                <p className="text-gray-700 mb-2">
+                                                    <span className="font-semibold">Address:</span> {formatAddress(order.address)}
+                                                </p>
+                                                <p className="text-gray-700">
+                                                    <span className="font-semibold">Phone:</span> {order.address.phone}
+                                                </p>
+                                            </div>
+                                            <h3 className="text-lg font-semibold mb-3 text-gray-700">Order Status</h3>
+                                            <select 
+                                                value={order.status}
+                                                onChange={(e) => handleOrderStatusChange(order._id, e.target.value)} 
+                                                
+                                             className="w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                                <option>Pending</option>
+                                                <option>Delivered</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                        <div className="mb-2 font-bold text-lg">
-                            {order.products.map(product => `${product.productId} x ${product.quantity}`).join(', ')} {/* List of products */}
-                        </div>
-                        <div className="text-gray-600">
-                            Items: {order.products.reduce((total, product) => total + product.quantity, 0)}
-                        </div>
-                        <div className="text-gray-600">
-                            Total Price: ${order.totalPrice.toFixed(2)}
-                        </div>
-                        <div className="text-sm text-gray-600 mt-2">
-                            {formatAddress(order.address)}
-                        </div>
-                        <div className="text-sm text-gray-600">
-                            {order.address.phone}
-                        </div>
-                        <select className="mt-4 p-2 bg-gray-200 rounded">
-                            <option>Food Processing</option>
-                            <option>Shipped</option>
-                            <option>Delivered</option>
-                        </select>
-                    </div>
-                ))
+                    ))}
+                </div>
             ) : (
-                <div>No orders found</div>
+                <div className="text-center text-gray-600 mt-10">No orders found</div>
             )}
         </div>
     );
