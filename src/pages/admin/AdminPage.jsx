@@ -6,6 +6,7 @@ import profilePic from '../../assets/images/profile.png';
 
 import AddProduct from './AddProduct';
 import ViewProduct from './ViewProduct';
+import ViewOrder from './ViewOrder';
 
 const AdminPage = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -71,9 +72,7 @@ const AdminPage = () => {
         </TabPanel>
         <TabPanel>
           
-          <div className="text-center mt-8">
-            <h1>Order-Details Content</h1>
-          </div>
+          <ViewOrder/>
         </TabPanel>
       </Tabs>
     </div>

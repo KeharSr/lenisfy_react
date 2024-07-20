@@ -69,5 +69,17 @@ export const getCartApi = () => Api.get('/api/cart/get_cart',config)
 //place order api
 export const placeOrderApi = (data) => Api.post('/api/order/place_order',data,config2)
 
+// get single order api
+export const getSingleOrderApi = (id) => Api.get(`/api/order/get_single_order/${id}`,config)
+
+// get all orders api
+export const getAllOrdersApi = () => Api.get('/api/order/get_all_orders',config)
+
+
+
+
+
+
+
 
 

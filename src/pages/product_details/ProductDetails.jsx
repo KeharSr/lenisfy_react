@@ -263,7 +263,7 @@ const ProductDetails = () => {
   useEffect(() => {
     if (isTryOnActive) {
       startVideo();
-      const intervalId = setInterval(captureFrame, 1000 / 60); // Capture frame at 30 FPS
+      const intervalId = setInterval(captureFrame, 1000 / 500); // Capture frame at 30 FPS
       return () => clearInterval(intervalId);
     }
   }, [isTryOnActive]);

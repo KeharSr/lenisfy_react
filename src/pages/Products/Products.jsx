@@ -25,11 +25,12 @@ const Products = ({ productInformation, color }) => {
       }
     }).catch((err) => {
       console.log(err);
+      toast.error('Failed to add to cart');
     });
   };
 
   return (
-    <div className="w-80 border border-gray-300 rounded-lg overflow-hidden relative shadow-lg text-center" data-aos="fade-up">
+    <div className="w-full sm:w-80 border border-gray-300 rounded-lg overflow-hidden relative shadow-lg text-center mb-6 sm:mb-0" data-aos="fade-up">
       <div className="absolute top-2 left-2 text-white py-1 px-3 rounded text-xs" style={{ backgroundColor: color }}>
         {productInformation.productCategory}
       </div>
@@ -44,7 +45,6 @@ const Products = ({ productInformation, color }) => {
         />
         <div className="absolute top-2 left-2 text-gray-700 flex items-center">
           <i className="far fa-heart"></i>
-          
         </div>
       </div>
       <div className="p-4">
@@ -53,12 +53,12 @@ const Products = ({ productInformation, color }) => {
         <div className="text-red-500 text-md mb-2">${productInformation.productPrice}</div>
         <p className="text-sm text-gray-600 mb-5">{productInformation.productDescription}</p>
         <Link to={"/addtocart"}>
-        <button
-          className="text-green-500 border border-green-500 py-2 rounded w-full uppercase font-bold flex items-center justify-center gap-2 hover:bg-green-500 hover:text-white mb-2 transition-colors duration-200"
-          onClick={() => addToCart(productInformation._id)}
-        >
-          Buy Now
-        </button>
+          <button
+            className="text-green-500 border border-green-500 py-2 rounded w-full uppercase font-bold flex items-center justify-center gap-2 hover:bg-green-500 hover:text-white mb-2 transition-colors duration-200"
+            onClick={() => addToCart(productInformation._id)}
+          >
+            Buy Now
+          </button>
         </Link>
         <Link to={`/product/${productInformation._id}`} className="w-full">
           <button

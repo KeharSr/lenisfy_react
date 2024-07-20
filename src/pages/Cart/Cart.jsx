@@ -96,7 +96,7 @@ const Cart = () => {
                `/placeorder/${JSON.stringify(cart)}`
               }>
               <button className="mt-4 bg-orange-500 text-white w-full py-2 rounded hover:bg-orange-600 transition-colors duration-300">
-                Proceed to Buy
+                Proceed to Checkout
               </button>
               </Link>
             </div>

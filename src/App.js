@@ -17,6 +17,7 @@ import SunGlasses from './pages/glasses/Sunglasses';
 import PlaceOrder from './pages/placeorder/PlaceOrder';
 
 
+
 function App() {
   return (
     
@@ -41,6 +42,8 @@ function App() {
         <Route path='/powerglasses' element={<PowerGlasses />} />
         <Route path='/product/:id' element={<ProductDetails />} />
         <Route path='/placeorder/:cart' element={<PlaceOrder />} />
+
+
 
         </Route>
       </Routes>
