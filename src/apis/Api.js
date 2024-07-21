@@ -57,8 +57,14 @@ export const getSingleProductApi = (id) => Api.get(`/api/product/get_single_prod
 
 
 
-// Get Products By Category Api
-export const getProductsByCategoryApi = (category) => Api.get(`/api/product/get_products_by_category?category=${category}`,config)
+// // Get Products By Category Api
+// export const getProductsByCategoryApi = (category) => Api.get(`/api/product/get_products_by_category?category=${category}`,config)
+
+// Get Products By Category including pagination
+export const getProductsByCategoryApi = (category, page, limit=2 ) =>  Api.get(`/api/product/get_products_by_category?category=${category}&page=${page}&limit=${limit}`, config)
+  
+  
+
 
 // Add to Cart Api
 export const addToCartApi = (data) => Api.post('/api/cart/add_to_cart', data,config)
@@ -76,7 +82,7 @@ export const getSingleOrderApi = (id) => Api.get(`/api/order/get_single_order/${
 export const getAllOrdersApi = () => Api.get('/api/order/get_all_orders',config)
 
 // order status update api
-export const updateOrderStatusApi = (id,data) => Api.post(`/api/order/update_order_status/${id}`,data,config)
+export const updateOrderStatusApi = (id,data) => Api.post(`/api/order/update_order_status/${id}`,data,config2)
 
 //forgot password
 export const forgotPasswordApi = (data) =>

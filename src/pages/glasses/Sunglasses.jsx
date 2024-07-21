@@ -1,86 +1,40 @@
-// import React, { useEffect, useState } from 'react';
-// import { getProductsByCategoryApi } from '../../apis/Api'; // Import your API function
-// import Products from '../Products/Products';
-// import toast from 'react-hot-toast';
-// import Navbar from '../../components/navbar/Navbar';
-
-
-// const SunGlasses = () => {
-//   const [products, setProducts] = useState([]);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     getProductsByCategoryApi('Sun Glasses') // Fetch products by 'Sun Glasses' category
-//       .then((res) => {
-//         if (res.status === 201) {
-//           setProducts(res.data.products);
-//         }
-//         setLoading(false);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//         setLoading(false);
-//         if (err.response.status === 400) {
-//           toast.error(err.response.data.message); // Handle errors
-//           setProducts([]);
-//         }
-//       });
-//   }, []);
-
-//   if (loading) {
-//     return <div>Loading...</div>;
-//   }
-
-//   return (
-//     <>
-//     <Navbar/>
-    
-//     <div>
-//       <h2 className="text-center mt-8">Sunglasses</h2>
-//       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 p-4">
-//         {products.map((singleProduct) => (
-//           <div className="p-4 border border-gray-200 rounded-lg bg-gray-50" key={singleProduct._id}>
-//             <Products productInformation={singleProduct} color={'red'} />
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//     </>
-//   );
-// };
-
-// export default SunGlasses;
-
-
 import React, { useEffect, useState } from 'react';
 import { getProductsByCategoryApi } from '../../apis/Api';
 import Products from '../Products/Products';
 import toast from 'react-hot-toast';
 import Navbar from '../../components/navbar/Navbar';
 import { motion } from 'framer-motion';
-import { Sun, Loader } from 'lucide-react';
+import { Sun, Loader, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const SunGlasses = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const limit = 2; // Set to match the default limit in your API
 
   useEffect(() => {
-    getProductsByCategoryApi('Sun Glasses')
-      .then((res) => {
-        if (res.status === 201) {
-          setProducts(res.data.products);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-        if (err.response?.status === 400) {
-          toast.error(err.response.data.message);
-          setProducts([]);
-        }
-      });
-  }, []);
+    fetchProducts();
+  }, [page]);
+
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const res = await getProductsByCategoryApi('Sun Glasses', page, limit);
+      if (res.status === 201) {
+        setProducts(res.data.products);
+        setTotalPages(Math.ceil(res.data.totalCount / limit));
+      }
+    } catch (err) {
+      console.log(err);
+      if (err.response?.status === 400) {
+        toast.error(err.response.data.message);
+        setProducts([]);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -100,9 +54,13 @@ const SunGlasses = () => {
     }
   };
 
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
         <Loader className="w-12 h-12 text-indigo-600 animate-spin" />
         <p className="mt-4 text-xl font-semibold text-gray-700">Loading amazing sunglasses...</p>
       </div>
@@ -130,15 +88,15 @@ const SunGlasses = () => {
         {products.length === 0 ? (
           <div className="text-center py-12">
             <Sun className="w-16 h-16 text-yellow-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-semibold text-gray-700">No sunglasses available at the moment</h2>
-            <p className="mt-2 text-gray-600">Check back soon for our latest collection!</p>
+            <h2 className="text-2xl font-semibold text-gray-700">No sunglasses available on this page</h2>
+            <p className="mt-2 text-gray-600">Try going back to the previous page or check again later!</p>
           </div>
         ) : (
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
           >
             {products.map((singleProduct) => (
               <motion.div
@@ -151,6 +109,27 @@ const SunGlasses = () => {
             ))}
           </motion.div>
         )}
+
+        {/* Pagination */}
+        <div className="flex justify-center items-center space-x-2 mt-8">
+          <button
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
+            className="px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <span className="text-gray-700">
+            Page {page} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page >= totalPages}
+            className="px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </div>
       </div>
     </div>
   );

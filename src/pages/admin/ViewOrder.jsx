@@ -1,5 +1,8 @@
 
 
+
+
+
 import React, { useState, useEffect } from 'react';
 import { getAllOrdersApi, updateOrderStatusApi } from '../../apis/Api';
 import { toast } from 'react-hot-toast';
@@ -9,7 +12,6 @@ const ViewOrder = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [expandedOrder, setExpandedOrder] = useState(null);
-   
 
     useEffect(() => {
         fetchOrders();
@@ -59,26 +61,45 @@ const ViewOrder = () => {
         setExpandedOrder(expandedOrder === orderId ? null : orderId);
     };
 
-    //update order status
     const statusHandler = async (e, orderId) => {
-        const newStatus = { status: e.target.value };
+        e.preventDefault();
+        const selectedStatus = e.target.value;
+    
+        const newStatus = { status: selectedStatus };
+    
         try {
             const response = await updateOrderStatusApi(orderId, newStatus);
-            if (response.data.success) {
-                // Handle successful status update
-                toast.log('Status updated successfully:', response.data);
+            if (response.status === 200) {
+                if (response.data.success) {
+                    toast.success(response.data.message);
+                    
+                    // Update orders state to reflect the change in the UI
+                    const updatedOrders = orders.map(order => {
+                        if (order._id === orderId) {
+                            return { ...order, status: selectedStatus };
+                        }
+                        return order;
+                    });
+                    setOrders(updatedOrders);
+    
+                } else {
+                    toast.error('Failed to update status: ' + response.data.message);
+                }
             } else {
-                // Handle failure scenario, although this will typically be caught by the catch block
-                toast.error('Failed to update status:', response.data.message);
+                // Handle non-200 responses
+                toast.error(`Failed to update status: ${response.data.message || 'Unknown error'}`);
             }
         } catch (error) {
-            toast.error('Error updating status:', error);
-            // Handle errors, possibly updating UI to show an error message
+            if (error.response) {
+                // Handle errors from backend
+                toast.error(`Error updating status: ${error.response.data.message}`);
+            } else {
+                // Handle other errors like network errors
+                toast.error('Error updating status: ' + error.message);
+            }
         }
     };
-    
-    
-    
+
     return (
         <div className="container mx-auto px-4 py-8">
             <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center text-gray-800">Order Management</h1>
@@ -134,8 +155,8 @@ const ViewOrder = () => {
                                             <h3 className="text-lg font-semibold mb-3 text-gray-700">Order Status</h3>
                                             <select onChange={(e) => statusHandler(e, order._id)} value={order.status}
                                              className="w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                                <option>Pending</option>
-                                                <option>Delivered</option>
+                                                <option value="Pending">Pending</option>
+                                                <option value="Delivered">Delivered</option>
                                             </select>
                                         </div>
                                     </div>
@@ -152,5 +173,3 @@ const ViewOrder = () => {
 };
 
 export default ViewOrder;
-
-
