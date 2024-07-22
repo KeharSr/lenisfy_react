@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { placeOrderApi } from '../../apis/Api';
+import { placeOrderApi, updateStatusApi } from '../../apis/Api';
 import { toast } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import Navbar from '../../components/navbar/Navbar';
@@ -67,6 +67,8 @@ const PlaceOrder = () => {
             const response = await placeOrderApi(orderData);
             if (response.data.order) {
                 toast.success('Order placed successfully!');
+                
+                await updateStatusApi();
             } else {
                 toast.error(response.data.message);
             }
