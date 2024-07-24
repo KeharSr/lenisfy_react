@@ -1,21 +1,17 @@
 
-import React, { useState,  } from 'react';
+
+
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import loginui from '../../assets/images/loginui.png';
 import './Login.css';
 import { Toaster, toast } from 'react-hot-toast';
 import { loginUserApi } from '../../apis/Api';
-
 import { useNavigate } from 'react-router-dom';
-
-
-
-
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
@@ -41,12 +37,12 @@ const Login = () => {
     e.preventDefault();
 
     if (!validation()) {
-        return;
+      return;
     }
 
     const data = {
-        "email": email,
-        "password": password
+      "email": email,
+      "password": password
     }
 
     loginUserApi(data).then((res) => {
@@ -66,7 +62,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="login-container bg-gradient-to-r from-blue-500 to-purple-600">
       <Toaster />
       <div className="login-box">
         <div className="login-form">

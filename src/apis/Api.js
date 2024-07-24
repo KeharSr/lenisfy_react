@@ -107,6 +107,9 @@ export const getReviewsByProductAndUserApi = (ProductId) => Api.get(`/api/review
 // get average rating api
 export const getAverageRatingApi = (ProductId) => Api.get(`/api/review/get_average_rating/${ProductId}`,config)
 
+//update review api
+export const updateReviewApi = (id,data) => Api.put(`/api/review/update_reviews/${id}`,data,config)
+
 
 
 
