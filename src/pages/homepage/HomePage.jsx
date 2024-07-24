@@ -6,6 +6,7 @@ import Hero from '../../components/Hero/Hero';
 import Products from '../Products/Products';
 import Banner from '../../components/Banner/Banner';
 import { ArrowRightIcon, Star } from 'lucide-react';
+import Footer from '../../components/footer/Footer';
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -106,51 +107,12 @@ const HomePage = () => {
 
         <Banner />
 
-        <section className="my-16">
-          <h2 className="text-center text-3xl font-bold text-gray-900 mb-8">Why Choose Us</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { title: 'Quality Products', description: 'We offer only the highest quality products to our customers.' },
-              { title: 'Fast Shipping', description: 'Get your orders delivered quickly and efficiently.' },
-              { title: 'Customer Support', description: '24/7 customer support to assist you with any queries.' },
-            ].map((item, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-6 text-center">
-                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                <p className="text-gray-600">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        <Footer/>
+
+        
       </main>
 
-      <footer className="bg-gray-800 text-white py-8">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">About Us</h3>
-              <p className="text-gray-400">We are committed to providing the best products and services to our customers.</p>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li><a href="/" className="text-gray-400 hover:text-white">Home</a></li>
-                <li><a href="/products" className="text-gray-400 hover:text-white">Products</a></li>
-                <li><a href="/about" className="text-gray-400 hover:text-white">About</a></li>
-                <li><a href="/contact" className="text-gray-400 hover:text-white">Contact</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
-              <p className="text-gray-400">123 Main St, City, Country</p>
-              <p className="text-gray-400">Phone: +1 234 567 890</p>
-              <p className="text-gray-400">Email: info@example.com</p>
-            </div>
-          </div>
-          <div className="mt-8 border-t border-gray-700 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Your Company Name. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      
     </div>
   );
 };

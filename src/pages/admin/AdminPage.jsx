@@ -7,6 +7,7 @@ import AddProduct from './AddProduct';
 import ViewProduct from './ViewProduct';
 import ViewOrder from './ViewOrder';
 import logo from '../../assets/images/applogo.png';
+import { toast } from 'react-hot-toast';
 
 const AdminPage = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -14,6 +15,18 @@ const AdminPage = () => {
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
+
+  const handleLogout = () => {
+    // Clear user data from storage
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    //toast
+    toast.success('Logged out successfully');
+
+    // Redirect user to the login page or home page
+    window.location.href = '/login';
+  }
 
   return (
     <div className="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen flex flex-col">
@@ -49,7 +62,8 @@ const AdminPage = () => {
                   <FaUserCircle className="mr-2" /> Update Profile
                 </a>
                 <a
-                  href="#logout"
+                  onClick={handleLogout}
+                  
                   className="block px-4 py-2 text-gray-800 hover:bg-red-100 rounded-b-lg flex items-center"
                 >
                   <FaSignOutAlt className="mr-2" /> Logout

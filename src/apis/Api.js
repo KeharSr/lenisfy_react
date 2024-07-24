@@ -37,6 +37,9 @@ export const registerUserApi = (data) => Api.post('/api/user/create', data)
 // Login Api
 export const loginUserApi = (data) => Api.post('/api/user/login', data)
 
+//Upload Profile Picture Api
+export const uploadProfilePictureApi = (data) => Api.post('/api/user/profile_picture', data,config)
+
 
 // Create Product Api
 export const createProductApi = (data) => Api.post('/api/product/create', data)
