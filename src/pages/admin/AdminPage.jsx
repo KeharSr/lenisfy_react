@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import AddProduct from './AddProduct';
 import ViewProduct from './ViewProduct';
 import ViewOrder from './ViewOrder';
+import logo from '../../assets/images/applogo.png';
 
 const AdminPage = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -18,7 +19,7 @@ const AdminPage = () => {
     <div className="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen flex flex-col">
       <header className="flex justify-between items-center p-4 bg-white shadow-lg">
         <div className="flex items-center">
-          <img src="/api/placeholder/48/48" alt="Lensify Logo" className="w-12 h-12 mr-2 rounded-full" />
+          <img src={logo} alt="Lensify Logo" className="w-12 h-12 mr-2 rounded-full" />
           <span className="text-2xl font-bold text-red-600">Lensify</span>
         </div>
         <div className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-purple-600">

@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { getProductsByCategoryApi } from '../../apis/Api';
+import { getAverageRatingApi, getProductsByCategoryApi } from '../../apis/Api';
 import Products from '../Products/Products';
 import toast from 'react-hot-toast';
 import Navbar from '../../components/navbar/Navbar';
 import { motion } from 'framer-motion';
-import { Sun, Loader, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Sun, Loader, ChevronLeft, ChevronRight,Star } from 'lucide-react';
 
 const SunGlasses = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [productsRatings, setProductsRatings] = useState({});
   const limit = 2; // Set to match the default limit in your API
 
   useEffect(() => {
@@ -35,6 +36,29 @@ const SunGlasses = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    for (let i = 0; i < products.length; i++) {
+      getAverageRatingApi(products[i]._id)
+        .then((res) => {
+          if (res.status === 200) {
+            const ratings=res.data.averageRating
+            const id=res.data.productId
+
+            // cretae a map between product id and rating
+            setProductsRatings((prev) => {
+              return {...prev, [id]:ratings}
+
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+      
+  }, 
+  [products]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -105,6 +129,17 @@ const SunGlasses = () => {
                 className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl"
               >
                 <Products productInformation={singleProduct} color={'indigo'} />
+                <div className="p-4 bg-gray-50">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-700">Average Rating:</span>
+                    <div className="flex items-center">
+                      <Star className="h-5 w-5 text-yellow-400 mr-1" fill="currentColor" />
+                      <span className="text-sm font-semibold text-gray-800">
+                        {productsRatings[singleProduct._id] ? productsRatings[singleProduct._id].toFixed(1) : 'N/A'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </motion.div>
