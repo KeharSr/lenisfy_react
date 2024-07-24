@@ -1,69 +1,16 @@
 
-
-
-
-// import React, { useEffect, useState } from 'react';
-
-// import Hero from '../../components/Hero/Hero';
-// import Products from '../Products/Products';
-// import Banner from '../../components/Banner/Banner';
-// import { getAllProductsApi } from "../../apis/Api"; // Only import the API function to fetch all products
-// import Navbar from '../../components/navbar/Navbar';
-
-// const HomePage = () => {
-//   const [products, setProducts] = useState([]);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     getAllProductsApi() // Fetch all products initially
-//       .then((res) => {
-//         if (res.status === 201) {
-//           setProducts(res.data.products);
-//         }
-//         setLoading(false);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//         setLoading(false);
-//       });
-//   }, []);
-
-//   if (loading) {
-//     return <div className="flex items-center justify-center h-screen">Loading...</div>;
-//   }
-
-//   return (
-//     <>
-//       <Navbar/>     
-//       <Hero />
-//       <h2 className="text-center mt-8 text-2xl font-semibold">Available Products</h2>
-//       <div className="flex flex-row gap-4">
-//         {products.slice(0, 4).map((singleProduct) => ( // Limit to 2 products
-//           <div className="w-full max-w-96 p-4 border border-gray-200 rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-200" key={singleProduct._id}>
-//             <Products productInformation={singleProduct} color={'red'} />
-//           </div>
-//         ))}
-//       </div>
-//       <Banner />
-//     </>
-//   );
-// };
-
-// export default HomePage;
-
-
-
 import React, { useEffect, useState } from 'react';
-import { getAllProductsApi } from "../../apis/Api";
+import { getAllProductsApi, getAverageRatingApi } from "../../apis/Api";
 import Navbar from '../../components/navbar/Navbar';
 import Hero from '../../components/Hero/Hero';
 import Products from '../Products/Products';
 import Banner from '../../components/Banner/Banner';
-import { ArrowRightIcon } from 'lucide-react';
+import { ArrowRightIcon, Star } from 'lucide-react';
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [productsRatings, setProductsRatings] = useState({});
 
   useEffect(() => {
     getAllProductsApi()
@@ -78,6 +25,35 @@ const HomePage = () => {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+        for (let i = 0; i < products.length; i++) {
+          getAverageRatingApi(products[i]._id)
+            .then((res) => {
+              if (res.status === 200) {
+                const ratings=res.data.averageRating
+                const id=res.data.productId
+
+                // cretae a map between product id and rating
+                setProductsRatings((prev) => {
+                  return {...prev, [id]:ratings}
+
+                });
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+          
+      }, 
+      [products]);
+
+  useEffect(() => {
+    console.log(productsRatings);
+  }, [productsRatings]);
+
+    
 
   if (loading) {
     return (
@@ -103,6 +79,17 @@ const HomePage = () => {
                 key={singleProduct._id}
               >
                 <Products productInformation={singleProduct} color={'red'} />
+                <div className="p-4 bg-gray-50">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-700">Average Rating:</span>
+                    <div className="flex items-center">
+                      <Star className="h-5 w-5 text-yellow-400 mr-1" fill="currentColor" />
+                      <span className="text-sm font-semibold text-gray-800">
+                        {productsRatings[singleProduct._id] ? productsRatings[singleProduct._id].toFixed(1) : 'N/A'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

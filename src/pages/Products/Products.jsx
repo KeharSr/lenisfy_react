@@ -11,6 +11,8 @@ const Products = ({ productInformation, color }) => {
     AOS.init({ duration: 1000 });
   }, []);
 
+  
+
   if (!productInformation) {
     return (
       <div className="w-full h-96 flex items-center justify-center">

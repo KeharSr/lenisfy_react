@@ -71,6 +71,9 @@ export const addToCartApi = (data) => Api.post('/api/cart/add_to_cart', data,con
 
 export const getCartApi = () => Api.get('/api/cart/get_cart',config)
 
+// delete cart item api
+export const deleteCartItemApi = (id) => Api.delete(`/api/cart/remove_cart_item/${id}`,config)
+
 export const updateStatusApi = () => Api.put(`/api/cart/update_status`,'',config)
 
 //place order api
@@ -92,6 +95,17 @@ export const forgotPasswordApi = (data) =>
 // verify otp
 export const verifyOtpApi = (data) => Api.post('/api/user/verify_otp', data);
 
+// add review api
+export const addReviewApi = (data) => Api.post('/api/review/post_reviews', data,config)
+
+// get reviews api
+export const getReviewsApi = (ProductId) => Api.get(`/api/review/get_reviews/${ProductId}`,config)
+
+// get reviews by product and user api
+export const getReviewsByProductAndUserApi = (ProductId) => Api.get(`/api/review/get_reviews_by_user_and_product/${ProductId}`,config) 
+
+// get average rating api
+export const getAverageRatingApi = (ProductId) => Api.get(`/api/review/get_average_rating/${ProductId}`,config)
 
 
 

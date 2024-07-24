@@ -1,12 +1,11 @@
 
-
 import React, { useState, useEffect } from 'react';
-import { getCartApi } from '../../apis/Api';
+import { getCartApi, deleteCartItemApi } from '../../apis/Api';
 import Navbar from '../../components/navbar/Navbar';
 import toast from 'react-hot-toast';
 import { json, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Minus, Plus, ArrowRight } from 'lucide-react';
+import { ShoppingCart, Minus, Plus, ArrowRight, Trash2 } from 'lucide-react';
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -57,10 +56,24 @@ const Cart = () => {
     setSubtotal(total);
   };
 
+  const handleDeleteItem = async (id) => {
+    try {
+      const res = await deleteCartItemApi(id);
+      if (res.status === 200) {
+        toast.success("Item removed from cart");
+        fetchCart();
+        // window.location.reload();
+      }
+    } catch (err) {
+      console.error("Error deleting item from cart:", err);
+      toast.error("Failed to remove item from cart");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100">
       <Navbar />
-      <div className="container mx-auto p-5 pt-24"> {/* Added pt-20 for top padding */}
+      <div className="container mx-auto p-5 pt-24">
         <motion.h1 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -122,6 +135,12 @@ const Cart = () => {
                   <span className="text-lg font-bold text-gray-800 ml-4">
                     Rs. {(item.productId.productPrice * item.quantity).toFixed(2)}
                   </span>
+                  <button 
+                    onClick={() => handleDeleteItem(item._id)}
+                    className="p-2 rounded-full bg-red-100 text-red-500 hover:bg-red-200 transition-colors duration-300"
+                  >
+                    <Trash2 size={20} />
+                  </button>
                 </div>
               </motion.div>
             ))}

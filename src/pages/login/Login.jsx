@@ -58,8 +58,7 @@ const Login = () => {
         localStorage.setItem('token', res.data.token)
         const convertedData = JSON.stringify(res.data.userData)
         localStorage.setItem('user', convertedData)
-
-        navigate(res.data.userData.isAdmin ? '/admin' : '/homepage');
+        window.location.href = res.data.userData.isAdmin ? '/admin' : '/homepage';
       }
     }).catch(error => {
       toast.error('Login failed. Please try again.');
