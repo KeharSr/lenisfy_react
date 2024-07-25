@@ -41,6 +41,10 @@ export const loginUserApi = (data) => Api.post('/api/user/login', data)
 export const uploadProfilePictureApi = (data) => Api.post('/api/user/profile_picture', data,config)
 
 
+// get current user api
+export const getCurrentUserApi = () => Api.get('/api/user/current',config)
+
+
 // Create Product Api
 export const createProductApi = (data) => Api.post('/api/product/create', data)
 

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FaShoppingCart, FaList, FaClipboardList, FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,23 +8,58 @@ import ViewProduct from './ViewProduct';
 import ViewOrder from './ViewOrder';
 import logo from '../../assets/images/applogo.png';
 import { toast } from 'react-hot-toast';
+import { uploadProfilePictureApi, getCurrentUserApi } from '../../apis/Api';
 
 const AdminPage = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [profilePicture, setProfilePicture] = useState('/api/placeholder/40/40');
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+
+  useEffect(() => {
+    getCurrentUserApi()
+      .then((res) => {
+        if (res.status === 200) {
+          setUser(res.data.user);
+          setProfilePicture(`http://localhost:5000/profile_pictures/${res.data.user.profilePicture}`);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
+  const handleProfilePictureChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const formData = new FormData();
+      formData.append('profilePicture', event.target.files[0]);
+      formData.append('userId', user._id);
+
+      uploadProfilePictureApi(formData)
+        .then((res) => {
+          if (res.status === 200) {
+            toast.success(res.data.message);
+            setProfilePicture(`http://localhost:5000/profile_pictures/${res.data.user.profilePicture}`);
+            setUser(res.data.user);
+            localStorage.setItem('user', JSON.stringify(res.data.user)); // Update local storage
+          } else {
+            toast.error(res.data.message);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error('Failed to upload profile picture');
+        });
+    }
+  };
+
   const handleLogout = () => {
-    // Clear user data from storage
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-
-    //toast
     toast.success('Logged out successfully');
-
-    // Redirect user to the login page or home page
     window.location.href = '/login';
   }
 
@@ -40,7 +75,7 @@ const AdminPage = () => {
         </div>
         <div className="relative">
           <motion.img
-            src="/api/placeholder/40/40"
+            src={profilePicture}
             alt="Profile"
             className="w-10 h-10 rounded-full cursor-pointer border-2 border-red-600"
             onClick={toggleDropdown}
@@ -55,16 +90,13 @@ const AdminPage = () => {
                 exit={{ opacity: 0, y: -10 }}
                 className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-xl z-10"
               >
-                <a
-                  href="#updateProfile"
-                  className="block px-4 py-2 text-gray-800 hover:bg-red-100 rounded-t-lg flex items-center"
-                >
-                  <FaUserCircle className="mr-2" /> Update Profile
-                </a>
+                <label className="block px-4 py-2 text-gray-800 hover:bg-red-100 cursor-pointer flex items-center">
+                  <FaUserCircle className="mr-2" /> Change Picture
+                  <input type="file" className="hidden" onChange={handleProfilePictureChange} accept="image/*" />
+                </label>
                 <a
                   onClick={handleLogout}
-                  
-                  className="block px-4 py-2 text-gray-800 hover:bg-red-100 rounded-b-lg flex items-center"
+                  className="block px-4 py-2 text-gray-800 hover:bg-red-100 rounded-b-lg flex items-center cursor-pointer"
                 >
                   <FaSignOutAlt className="mr-2" /> Logout
                 </a>
