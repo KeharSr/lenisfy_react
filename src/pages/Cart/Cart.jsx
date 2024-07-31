@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { getCartApi, deleteCartItemApi } from '../../apis/Api';
+import { getCartApi, deleteCartItemApi, updateCartItemApi } from '../../apis/Api';
 import Navbar from '../../components/navbar/Navbar';
 import toast from 'react-hot-toast';
 import { json, Link } from 'react-router-dom';
@@ -10,10 +10,11 @@ import { ShoppingCart, Minus, Plus, ArrowRight, Trash2 } from 'lucide-react';
 const Cart = () => {
   const [cart, setCart] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
+  const[quantityChanged,setQuantityChanged]=useState(false);
 
   useEffect(() => {
     fetchCart();
-  }, []);
+  }, [quantityChanged]);
 
   const fetchCart = async () => {
     try {
@@ -47,8 +48,17 @@ const Cart = () => {
 
     const newCart = [...cart];
     newCart[index].quantity = newQuantity;
-    setCart(newCart);
-    calculateSubtotal(newCart);
+    const data={
+      productId:cart[index].productId._id,
+      quantity:newQuantity
+    }
+    updateCartItemApi(data).then((res)=>{
+      console.log(res.data);
+      setQuantityChanged(!quantityChanged);
+    }).catch((err)=>{
+      console.log(err);
+    })
+   
   };
 
   const calculateSubtotal = (items) => {
@@ -60,8 +70,8 @@ const Cart = () => {
     try {
       const res = await deleteCartItemApi(id);
       if (res.status === 200) {
-        toast.success("Item removed from cart");
-        fetchCart();
+        toast.success(res.data.message);
+        setQuantityChanged(!quantityChanged);
         // window.location.reload();
       }
     } catch (err) {

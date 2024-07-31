@@ -51,7 +51,7 @@ const PlaceOrder = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validateOrderData()) return;
-        
+
         const total = subtotal + formData.deliveryFee;
         const orderData = {
             products: cart.map(product => ({
@@ -59,7 +59,7 @@ const PlaceOrder = () => {
                 quantity: product.quantity
             })),
             totalPrice: total,
-            address: {...formData},
+            address: { ...formData },
             payment: true
         };
 
@@ -67,7 +67,7 @@ const PlaceOrder = () => {
             const response = await placeOrderApi(orderData);
             if (response.data.order) {
                 toast.success('Order placed successfully!');
-                
+
                 await updateStatusApi();
             } else {
                 toast.error(response.data.message);
@@ -80,67 +80,67 @@ const PlaceOrder = () => {
 
     return (
         <>
-        <Navbar/>
-        <div className="bg-gradient-to-br from-purple-100 to-indigo-100 min-h-screen p-4 md:p-8 lg:p-12">
-            <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
-                <div className="md:flex">
-                    <div className="md:w-1/2 p-6 md:p-8 lg:p-12">
-                        <h2 className="text-3xl font-bold text-gray-800 mb-6">Delivery Information</h2>
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            {Object.entries(formData).map(([key, value]) => key !== 'deliveryFee' && (
-                                <div key={key}>
-                                    <label htmlFor={key} className="block text-sm font-medium text-gray-700 mb-1">
-                                        {key.charAt(0).toUpperCase() + key.slice(1).replace(/[A-Z]/g, ' $&')}
-                                    </label>
-                                    <input
-                                        id={key}
-                                        type={key === 'email' ? 'email' : 'text'}
-                                        name={key}
-                                        value={value}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                    />
-                                </div>
-                            ))}
-                        </form>
-                    </div>
-                    <div className="md:w-1/2 bg-indigo-100 p-6 md:p-8 lg:p-12">
-                        <h2 className="text-3xl font-bold text-gray-800 mb-6">Order Summary</h2>
-                        <div className="space-y-4">
-                            {cart.map((product, index) => (
-                                <div key={index} className="flex justify-between items-center">
-                                    <span className="text-gray-600">{product.productId.productName} x {product.quantity}</span>
-                                    <span className="font-semibold">${(product.productId.productPrice * product.quantity).toFixed(2)}</span>
-                                </div>
-                            ))}
-                            <div className="border-t pt-4">
-                                <div className="flex justify-between items-center">
-                                    <span className="text-gray-600">Subtotal</span>
-                                    <span className="font-semibold">${subtotal.toFixed(2)}</span>
-                                </div>
-                                <div className="flex justify-between items-center mt-2">
-                                    <span className="text-gray-600">Delivery Fee</span>
-                                    <span className="font-semibold">${formData.deliveryFee.toFixed(2)}</span>
-                                </div>
-                            </div>
-                            <div className="border-t pt-4">
-                                <div className="flex justify-between items-center text-xl font-bold">
-                                    <span>Total</span>
-                                    <span>${(subtotal + formData.deliveryFee).toFixed(2)}</span>
-                                </div>
-                            </div>
+            <Navbar />
+            <div className="bg-gradient-to-br from-purple-100 to-indigo-100 min-h-screen p-4 md:p-8 lg:p-12">
+                <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+                    <div className="md:flex">
+                        <div className="md:w-1/2 p-6 md:p-8 lg:p-12">
+                            <h2 className="text-3xl font-bold text-gray-800 mb-6">Delivery Information</h2>
+                            <form onSubmit={handleSubmit} className="space-y-4">
+                                {Object.entries(formData).map(([key, value]) => key !== 'deliveryFee' && (
+                                    <div key={key}>
+                                        <label htmlFor={key} className="block text-sm font-medium text-gray-700 mb-1">
+                                            {key.charAt(0).toUpperCase() + key.slice(1).replace(/[A-Z]/g, ' $&')}
+                                        </label>
+                                        <input
+                                            id={key}
+                                            type={key === 'email' ? 'email' : 'text'}
+                                            name={key}
+                                            value={value}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                        />
+                                    </div>
+                                ))}
+                            </form>
                         </div>
-                        <button
-                            type="submit"
-                            onClick={handleSubmit}
-                            className="w-full mt-8 bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
-                        >
-                            Place Order
-                        </button>
+                        <div className="md:w-1/2 bg-indigo-100 p-6 md:p-8 lg:p-12">
+                            <h2 className="text-3xl font-bold text-gray-800 mb-6">Order Summary</h2>
+                            <div className="space-y-4">
+                                {cart.map((product, index) => (
+                                    <div key={index} className="flex justify-between items-center">
+                                        <span className="text-gray-600">{product.productId.productName} x {product.quantity}</span>
+                                        <span className="font-semibold">${(product.productId.productPrice * product.quantity).toFixed(2)}</span>
+                                    </div>
+                                ))}
+                                <div className="border-t pt-4">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-600">Subtotal</span>
+                                        <span className="font-semibold">${subtotal.toFixed(2)}</span>
+                                    </div>
+                                    <div className="flex justify-between items-center mt-2">
+                                        <span className="text-gray-600">Delivery Fee</span>
+                                        <span className="font-semibold">${formData.deliveryFee.toFixed(2)}</span>
+                                    </div>
+                                </div>
+                                <div className="border-t pt-4">
+                                    <div className="flex justify-between items-center text-xl font-bold">
+                                        <span>Total</span>
+                                        <span>${(subtotal + formData.deliveryFee).toFixed(2)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                type="submit"
+                                onClick={handleSubmit}
+                                className="w-full mt-8 bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+                            >
+                                Place Order
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </>
     );
 }

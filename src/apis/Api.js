@@ -28,29 +28,34 @@ const config = {
 export const testApi = () => Api.get('/test')
 
 
+//=========================== Auth Apis ===========================
+
 // Register Api
-
 export const registerUserApi = (data) => Api.post('/api/user/create', data)
-
-
 
 // Login Api
 export const loginUserApi = (data) => Api.post('/api/user/login', data)
 
-//Upload Profile Picture Api
-export const uploadProfilePictureApi = (data) => Api.post('/api/user/profile_picture', data,config)
-
-
 // get current user api
 export const getCurrentUserApi = () => Api.get('/api/user/current',config)
 
+//Upload Profile Picture Api
+export const uploadProfilePictureApi = (data) => Api.post('/api/user/profile_picture', data,config)
+
+//forgot password
+export const forgotPasswordApi = (data) => Api.post('/api/user/forgot_password', data);
+  
+// verify otp
+export const verifyOtpApi = (data) => Api.post('/api/user/verify_otp', data);
+
+
+//=========================== Product Apis ===========================
 
 // Create Product Api
 export const createProductApi = (data) => Api.post('/api/product/create', data)
 
 // Get All Products Api
 export const getAllProductsApi = () => Api.get('/api/product/get_all_products',config)
-
 
 // Update Product Api
 export const updateProduct = (id,data) => Api.put(`/api/product/update_product/${id}`,data,config)
@@ -61,28 +66,29 @@ export const deleteProduct = (id) => Api.delete(`/api/product/delete_product/${i
 // Get Single Product Api
 export const getSingleProductApi = (id) => Api.get(`/api/product/get_single_product/${id}`,config)
 
-
-
-// // Get Products By Category Api
-// export const getProductsByCategoryApi = (category) => Api.get(`/api/product/get_products_by_category?category=${category}`,config)
-
 // Get Products By Category including pagination
 export const getProductsByCategoryApi = (category, page, limit=2 ) =>  Api.get(`/api/product/get_products_by_category?category=${category}&page=${page}&limit=${limit}`, config)
   
   
-
+//=========================== Cart Apis ===========================
 
 // Add to Cart Api
 export const addToCartApi = (data) => Api.post('/api/cart/add_to_cart', data,config)
 
-
+// Get Cart Api
 export const getCartApi = () => Api.get('/api/cart/get_cart',config)
 
 // delete cart item api
 export const deleteCartItemApi = (id) => Api.delete(`/api/cart/remove_cart_item/${id}`,config)
 
+// update cart status api
 export const updateStatusApi = () => Api.put(`/api/cart/update_status`,'',config)
 
+// update cart item
+export const updateCartItemApi=(data)=> Api.put(`/api/cart/update_cart`,data,config)
+
+
+//=========================== Order Apis ===========================
 //place order api
 export const placeOrderApi = (data) => Api.post('/api/order/place_order',data,config2)
 
@@ -95,12 +101,11 @@ export const getAllOrdersApi = () => Api.get('/api/order/get_all_orders',config)
 // order status update api
 export const updateOrderStatusApi = (id,data) => Api.post(`/api/order/update_order_status/${id}`,data,config2)
 
-//forgot password
-export const forgotPasswordApi = (data) =>
-  Api.post('/api/user/forgot_password', data);
+// get orders by user api
+export const getOrdersByUserApi = () => Api.get('/api/order/get_orders_by_user',config)
 
-// verify otp
-export const verifyOtpApi = (data) => Api.post('/api/user/verify_otp', data);
+
+//=========================== Review Apis ===========================
 
 // add review api
 export const addReviewApi = (data) => Api.post('/api/review/post_reviews', data,config)

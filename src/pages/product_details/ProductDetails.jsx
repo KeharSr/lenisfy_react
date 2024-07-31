@@ -20,7 +20,7 @@
 //   const[reviews,setReviews]=useState([]);
 //   const [showReviewForm, setShowReviewForm] = useState(false);
 //   const[reviewChange,setReviewChange]=useState(false);
-  
+
 
 //   const[ownReview,setOwnReview]=useState(null);
 //   const [productsRatings, setProductsRatings] = useState({});
@@ -70,7 +70,7 @@
 //       });
 //   }, [id,reviewChange]);
 
- 
+
 //   // get average rating
 //   useEffect(() => {
 //     getAverageRatingApi(id)
@@ -230,7 +230,7 @@
 //         }
 
 //       }
-      
+
 //     });
 // };
 
@@ -281,7 +281,7 @@
 
 
 
-  
+
 
 //   if (!product) {
 //     return (
@@ -326,7 +326,7 @@
 //             <div className="md:w-1/2 p-8">
 //               <h1 className="text-3xl font-bold mb-4 text-gray-800">{product.productName}</h1>
 //               <div className="flex items-center mb-4">
-  
+
 //               <div className="mb-4">
 //               {/* {ownReview && (
 //                 <div key={ownReview._id} className="mb-6 pb-6 border-b border-gray-200 last:border-b-0">
@@ -365,7 +365,7 @@
 //                   ))}
 
 //                 </div>
-                
+
 
 //               </div>
 //               </div>
@@ -461,8 +461,8 @@
 //             Write a Review
 //           </button>
 
-          
-          
+
+
 //           {showReviewForm && (
 //             <form onSubmit={handleReviewSubmit} className="mt-6 bg-gray-50 p-6 rounded-lg">
 //               <h3 className="text-xl font-semibold mb-4">Write Your Review</h3>
@@ -502,7 +502,7 @@
 //                 </button>
 //             </form>
 //           )}
-          
+
 
 //          </div>
 //       </div>
@@ -574,7 +574,7 @@ const ProductDetails = () => {
   useEffect(() => {
     getSingleProductApi(id)
       .then((res) => {
-        if (res.status === 201) {
+        if (res.status === 200) {
           setProduct(res.data.product);
           setMainImage(res.data.product.productImage);
           updateStockStatus(res.data.product, quantity);
@@ -853,43 +853,41 @@ const ProductDetails = () => {
               <h1 className="text-3xl font-bold mb-4 text-gray-800">{product.productName}</h1>
               <div className="flex items-center mb-4">
 
-              <div className="mb-4">
-              {ownReview && (
-                <div key={ownReview._id} className="mb-6 pb-6 border-b border-gray-200 last:border-b-0">
-                <div className="flex items-center mb-2">
+                <div className="mb-4">
+                  {ownReview && (
+                    <div key={ownReview._id} className="mb-6 pb-6 border-b border-gray-200 last:border-b-0">
+                      <div className="flex items-center mb-2">
+                        <div className="flex items-center">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <Star
+                              key={star}
+                              className={`w-4 h-4 ${star <= ownReview.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                                }`}
+                            />
+                          ))}
+                        </div>
+                        <span className="ml-2 text-sm text-gray-600">{ownReview.date}</span>
+                      </div>
+                      <p className="text-gray-700">{ownReview.review}</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <div className='font-bold'>
+                    Average Rating:
+                  </div>
                   <div className="flex items-center">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Star
                         key={star}
-                        className={`w-4 h-4 ${
-                          star <= ownReview.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                        }`}
+                        className={`w-6 h-6 ${star <= productsRatings[product._id] ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                          }`}
                       />
                     ))}
+
                   </div>
-                  <span className="ml-2 text-sm text-gray-600">{ownReview.date}</span>
                 </div>
-                <p className="text-gray-700">{ownReview.review}</p> 
-              </div>
-              )}
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <div className='font-bold'>
-                  Average Rating:
-                </div>
-                <div className="flex items-center">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star
-                      key={star}
-                      className={`w-6 h-6 ${
-                        star <= productsRatings[product._id] ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                      }`}
-                    />
-                  ))}
-
-                </div>
-              </div>
               </div>
               <div className="text-3xl font-bold text-blue-600 mb-6">${product.productPrice.toFixed(2)}</div>
               <p className="text-gray-600 mb-6">{product.productDescription}</p>
