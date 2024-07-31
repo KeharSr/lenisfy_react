@@ -17,6 +17,7 @@ import SunGlasses from './pages/glasses/Sunglasses';
 import PlaceOrder from './pages/placeorder/PlaceOrder';
 import ForgotPassword from './pages/forget_password/ForgetPassword';
 import MyOrders from './pages/my_order/MyOrder';
+import Favorites from './pages/favourites/Favourites';
 
 
 
@@ -45,7 +46,8 @@ function App() {
         <Route path='/product/:id' element={<ProductDetails />} />
         <Route path='/placeorder/:cart' element={<PlaceOrder />} />
         <Route path='/forgotpassword' element={<ForgotPassword/>} />
-        <Route path='/myorder' element={<MyOrders/>} />
+        <Route path='/myorder'          element={<MyOrders/>} />
+        <Route path='/favourites' element={<Favorites/>} />
 
 
 

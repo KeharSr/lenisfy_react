@@ -120,7 +120,19 @@ export const getReviewsByProductAndUserApi = (ProductId) => Api.get(`/api/review
 export const getAverageRatingApi = (ProductId) => Api.get(`/api/review/get_average_rating/${ProductId}`,config)
 
 //update review api
-export const updateReviewApi = (id,data) => Api.put(`/api/review/update_reviews/${id}`,data,config)
+export const updateReviewApi = (productId,data) => Api.put(`/api/review/update_reviews/${productId}`,data,config)
+
+
+//=========================== Favourites Apis ===========================
+
+// add to favourites api
+export const addFavouriteApi = (data) => Api.post('/api/favourite/add_favourite', data,config)
+
+// get favourites api
+export const getFavouritesApi = () => Api.get('/api/favourite/get_favourite',config)
+
+// delete favourite api
+export const deleteFavouriteApi = (id) => Api.delete(`/api/favourite/remove_favourite/${id}`,config)
 
 
 
