@@ -251,7 +251,6 @@ const ProductDetails = () => {
         });
 };
 
-
   if (!product) {
     return (
       <div className="flex items-center justify-center h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
@@ -299,6 +298,7 @@ const ProductDetails = () => {
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star
                       key={star}
+                      aria-label={`Rating ${star}`}
                       className={`w-6 h-6 ${star <= productsRatings[product._id] ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
                     />
                   ))}
@@ -399,6 +399,7 @@ const ProductDetails = () => {
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Star
                         key={star}
+                        aria-label={`Review Rating ${star}`}
                         className={`w-5 h-5 ${star <= review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
                       />
                     ))}
@@ -434,6 +435,7 @@ const ProductDetails = () => {
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star
                       key={star}
+                      aria-label={`Rating ${star}`}
                       className={`w-8 h-8 cursor-pointer transition-colors duration-200 ${star <= rating ? 'text-yellow-400 fill-current' : 'text-gray-300 hover:text-yellow-300'}`}
                       onClick={() => setRating(star)}
                     />
