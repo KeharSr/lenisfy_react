@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { forgotPasswordApi, verifyOtpApi } from '../../apis/Api';
 
-const ForgotPassword = () => {
+const ForgetPassword = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isSent, setIsSent] = useState(false);
   const [otp, setOtp] = useState('');
@@ -154,4 +154,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ForgetPassword;

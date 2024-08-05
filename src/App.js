@@ -15,7 +15,7 @@ import PowerGlasses from './pages/glasses/PowerGlasses';
 import ProductDetails from './pages/product_details/ProductDetails';
 import SunGlasses from './pages/glasses/Sunglasses';
 import PlaceOrder from './pages/placeorder/PlaceOrder';
-import ForgotPassword from './pages/forget_password/ForgetPassword';
+import ForgetPassword from "./pages/forget_password/ForgetPassword";
 import MyOrders from './pages/my_order/MyOrder';
 import Favorites from './pages/favourites/Favourites';
 
@@ -45,15 +45,10 @@ function App() {
         <Route path='/powerglasses' element={<PowerGlasses />} />
         <Route path='/product/:id' element={<ProductDetails />} />
         <Route path='/placeorder/:cart' element={<PlaceOrder />} />
-        <Route path='/forgotpassword' element={<ForgotPassword/>} />
-        <Route path='/myorder'          element={<MyOrders/>} />
+        <Route path='/myorder'element={<MyOrders/>} />
         <Route path='/favourites' element={<Favorites/>} />
-
-
-
-
-
         </Route>
+        <Route path='/forgetpassword' element={<ForgetPassword/>}/>
       </Routes>
     </Router>
     

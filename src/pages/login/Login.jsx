@@ -2,12 +2,11 @@
 
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import loginui from '../../assets/images/loginui.png';
 import './Login.css';
 import { Toaster, toast } from 'react-hot-toast';
 import { loginUserApi } from '../../apis/Api';
-import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -41,24 +40,29 @@ const Login = () => {
     }
 
     const data = {
-      "email": email,
-      "password": password
-    }
+      email: email,
+      password: password
+    };
 
-    loginUserApi(data).then((res) => {
-      if(res.data.sucess === false){
-        toast.error(res.data.message)
-      }
-      else{
-        toast.success(res.data.message)
-        localStorage.setItem('token', res.data.token)
-        const convertedData = JSON.stringify(res.data.userData)
-        localStorage.setItem('user', convertedData)
-        window.location.href = res.data.userData.isAdmin ? '/admin' : '/homepage';
-      }
-    }).catch(error => {
-      toast.error('Login failed. Please try again.');
-    });
+    loginUserApi(data)
+      .then((res) => {
+        if (res.data.success === false) {
+          toast.error(res.data.message);
+        } else {
+          toast.success(res.data.message);
+          localStorage.setItem('token', res.data.token);
+          const convertedData = JSON.stringify(res.data.userData);
+          localStorage.setItem('user', convertedData);
+          window.location.href = res.data.userData.isAdmin ? '/admin' : '/homepage';
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error('Login failed. Please try again.');
+        }
+      });
   };
 
   return (
@@ -91,7 +95,7 @@ const Login = () => {
               />
               {passwordError && <p className="login-error-message">{passwordError}</p>}
               <p className="text-right mt-2">
-                <Link to="/forgotpassword" className="text-blue-600 hover:underline text-sm">
+                <Link to="/forgetpassword" className="text-blue-600 hover:underline text-sm">
                   Forgot Password?
                 </Link>
               </p>
@@ -118,3 +122,4 @@ const Login = () => {
 };
 
 export default Login;
+

@@ -40,7 +40,7 @@ export const loginUserApi = (data) => Api.post('/api/user/login', data)
 export const getCurrentUserApi = () => Api.get('/api/user/current',config)
 
 //Upload Profile Picture Api
-export const uploadProfilePictureApi = (data) => Api.post('/api/user/profile_picture', data,config)
+export const uploadProfilePictureApi = (id,data) => Api.post(`/api/user/profile_picture/${id}`, data,config)
 
 //forgot password
 export const forgotPasswordApi = (data) => Api.post('/api/user/forgot_password', data);

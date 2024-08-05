@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
 import { ShoppingCart, User, Menu, X } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { uploadProfilePictureApi, getCurrentUserApi } from '../../apis/Api';
+import Footer from '../footer/Footer';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -48,15 +49,14 @@ const Navbar = () => {
         if (event.target.files && event.target.files[0]) {
             const formData = new FormData();
             formData.append('profilePicture', event.target.files[0]);
-            formData.append('userId', user._id);
 
             uploadProfilePictureApi(formData)
                 .then((res) => {
                     if (res.status === 200) {
                         toast.success(res.data.message);
-                        setProfilePicture(`http://localhost:5000/profile_pictures/${res.data.user.profilePicture}`);
-                        setUser(res.data.user);
-                        localStorage.setItem('user', JSON.stringify(res.data.user)); // Update local storage
+                        setProfilePicture(`http://localhost:5000/profile_pictures/${res.data.data.profilePicture}`);
+                        setUser(res.data.data.user);
+                        localStorage.setItem('user', JSON.stringify(res.data.data.user)); // Update local storage
                     } else {
                         toast.error(res.data.message);
                     }
@@ -94,10 +94,13 @@ const Navbar = () => {
                         <NavLink to="/homepage">Home</NavLink>
                         <NavLink to="/sunglasses">Sun Glasses</NavLink>
                         <NavLink to="/powerglasses">Power Glasses</NavLink>
-                        <NavLink to="/contact">Contact</NavLink>
+                        <NavLink to="/myorder">MyOrders</NavLink>
+                        <NavLink to="/favourites">Favourites</NavLink>
+                        <NavLink to={Footer}>Contact</NavLink>
                         <Link to="/addtocart" className="text-gray-600 hover:text-gray-800 transition-colors duration-200">
                             <ShoppingCart className="w-6 h-6" />
                         </Link>
+                        
                         <div className="relative">
                             <button
                                 onClick={() => setIsOpen(!isOpen)}
@@ -151,11 +154,14 @@ const Navbar = () => {
                         <NavLink to="/homepage" mobile>Home</NavLink>
                         <NavLink to="/sunglasses" mobile>Sun Glasses</NavLink>
                         <NavLink to="/powerglasses" mobile>Power Glasses</NavLink>
-                        <NavLink to="/contact" mobile>Contact</NavLink>
+                        <NavLink to={Footer} mobile>Contact</NavLink>
+                        <NavLink to="/myorder" mobile>MyOrders</NavLink>
+                        <NavLink to="/favourites" mobile>Favourites</NavLink>
                         <NavLink to="/addtocart" mobile>
                             <ShoppingCart className="w-5 h-5 mr-2" />
                             Cart
                         </NavLink>
+                        
                     </div>
                 </motion.div>
             )}
