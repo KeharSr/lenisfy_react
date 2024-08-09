@@ -48,6 +48,13 @@ export const forgotPasswordApi = (data) => Api.post('/api/user/forgot_password',
 // verify otp
 export const verifyOtpApi = (data) => Api.post('/api/user/verify_otp', data);
 
+// google login
+export const googleLoginApi = (data) => Api.post("/api/user/google", data);
+
+// get by email
+export const getUserByGoogleEmail = (data) =>
+	Api.post(`/api/user/getGoogleUser`, data);
+
 
 //=========================== Product Apis ===========================
 
@@ -135,6 +142,27 @@ export const getFavouritesApi = () => Api.get('/api/favourite/get_favourite',con
 export const deleteFavouriteApi = (id) => Api.delete(`/api/favourite/remove_favourite/${id}`,config)
 
 
+// Payment api
+export const createPaymentApi = (data) =>
+	Api.post(`/api/payment/add`, data, config2);
 
+const KhaltiApi = axios.create({
+	baseURL: "https://test-pay.khalti.com/",
+	headers: {
+		"Content-Type": "application/json",
+		authorization: `key test_public_key_38acaf5cadbe41e781e13d35f19509f4`,
+	},
+});
+
+export const initiateKhaltiPayment = (data) =>
+	KhaltiApi.post("api/v2/epayment/initiate/", data);
+
+// Function to initialize Khalti payment
+export const initializeKhaltiPaymentApi = (data) =>
+    Api.post("api/khalti/initialize-khalti", data);
+
+// Function to verify Khalti payment
+export const verifyKhaltiPaymentApi = (params) =>
+    Api.get("/api/khalti/complete-khalti-payment", { params });
 
 

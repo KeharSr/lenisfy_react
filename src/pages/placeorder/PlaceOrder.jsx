@@ -1,148 +1,237 @@
-
-import React, { useEffect, useState } from 'react';
-import { placeOrderApi, updateStatusApi } from '../../apis/Api';
-import { toast } from 'react-hot-toast';
-import { useParams } from 'react-router-dom';
-import Navbar from '../../components/navbar/Navbar';
+import React, { useEffect, useState } from "react";
+import {
+  placeOrderApi,
+  initializeKhaltiPaymentApi,
+  verifyKhaltiPaymentApi,
+} from "../../apis/Api"; // Assuming you have these APIs
+import { toast } from "react-hot-toast";
+import { useParams, useNavigate } from "react-router-dom";
+import Navbar from "../../components/navbar/Navbar";
 
 const PlaceOrder = () => {
-    const [cart, setCart] = useState([]);
-    const [subtotal, setSubtotal] = useState(0);
-    const params = useParams();
-    const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        street: '',
-        city: '',
-        state: '',
-        zipCode: '',
-        country: '',
-        phone: '',
-        deliveryFee: 40.00
-    });
+  const [cart, setCart] = useState([]);
+  const [subtotal, setSubtotal] = useState(0);
+  const params = useParams();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    street: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    country: "",
+    phone: "",
+    deliveryFee: 40.0,
+  });
 
-    useEffect(() => {
-        const carts = JSON.parse(params.cart);
-        if (params.cart) {
-            setCart(JSON.parse(params.cart));
-            setSubtotal(carts.reduce((sum, item) => sum + (item.productId.productPrice * item.quantity), 0));
-        }
-    }, [params]);
+  useEffect(() => {
+    const carts = JSON.parse(params.cart);
+    if (params.cart) {
+      setCart(JSON.parse(params.cart));
+      setSubtotal(
+        carts.reduce(
+          (sum, item) => sum + item.productId.productPrice * item.quantity,
+          0
+        )
+      );
+    }
+  }, [params]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const validateOrderData = () => {
+    const {
+      firstName,
+      lastName,
+      email,
+      street,
+      city,
+      state,
+      zipCode,
+      country,
+      phone,
+    } = formData;
+    if (
+      !firstName ||
+      !lastName ||
+      !email ||
+      !street ||
+      !city ||
+      !state ||
+      !zipCode ||
+      !country ||
+      !phone
+    ) {
+      toast.error("Please fill all the fields.");
+      return false;
+    }
+    if (
+      !cart.length ||
+      cart.some(
+        (product) =>
+          !product.productId || !product.productId._id || product.quantity <= 0
+      )
+    ) {
+      toast.error("No products added to the order or invalid product data.");
+      return false;
+    }
+    return true;
+  };
+
+  const handlePayment = async (orderId, totalPrice) => {
+    try {
+      const paymentResponse = await initializeKhaltiPaymentApi({
+        orderId,
+        totalPrice,
+        website_url: window.location.origin, // Adjust the website URL as necessary
+      });
+      console.log("Payment response:", paymentResponse);
+      if (paymentResponse.data.success) {
+        // Redirect to the payment URL (e.g., Khalti)
+        const paymentUrl= paymentResponse.data.payment.payment_url;
+        // window.open(paymentUrl, '_blank'); 
+        window.location.href = paymentUrl;
+
+      } else {
+        toast.error("Failed to initialize payment. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error processing payment:", error);
+      toast.error(
+        "Error processing payment: " +
+          (error.response?.data?.message || error.message || "Unknown error")
+      );
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateOrderData()) return;
+
+    const total = subtotal + formData.deliveryFee;
+    const orderData = {
+      products: cart.map((product) => ({
+        productId: product.productId._id,
+        quantity: product.quantity,
+      })),
+      totalPrice: total,
+      address: { ...formData },
+      payment: false, // Set payment to false initially
     };
 
-    const validateOrderData = () => {
-        const { firstName, lastName, email, street, city, state, zipCode, country, phone } = formData;
-        if (!firstName || !lastName || !email || !street || !city || !state || !zipCode || !country || !phone) {
-            toast.error('Please fill all the fields.');
-            return false;
-        }
-        if (!cart.length || cart.some(product => !product.productId || !product.productId._id || product.quantity <= 0)) {
-            toast.error('No products added to the order or invalid product data.');
-            return false;
-        }
-        return true;
-    };
+    try {
+      const response = await placeOrderApi(orderData);
+      if (response.data.order) {
+        toast.success("Order placed successfully!");
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!validateOrderData()) return;
+        // Process payment after placing the order
+        await handlePayment(response.data.order._id, total);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error placing order:", error);
+      toast.error(
+        "Error placing order: " +
+          (error.response?.data?.message || error.message || "Unknown error")
+      );
+    }
+  };
 
-        const total = subtotal + formData.deliveryFee;
-        const orderData = {
-            products: cart.map(product => ({
-                productId: product.productId._id,
-                quantity: product.quantity
-            })),
-            totalPrice: total,
-            address: { ...formData },
-            payment: true
-        };
-
-        try {
-            const response = await placeOrderApi(orderData);
-            if (response.data.order) {
-                toast.success('Order placed successfully!');
-
-                await updateStatusApi();
-            } else {
-                toast.error(response.data.message);
-            }
-        } catch (error) {
-            console.error('Error placing order:', error);
-            toast.error('Error placing order: ' + (error.response?.data?.message || error.message || 'Unknown error'));
-        }
-    };
-
-    return (
-        <>
-            <Navbar />
-            <div className="bg-gradient-to-br from-purple-100 to-indigo-100 min-h-screen p-4 md:p-8 lg:p-12">
-                <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
-                    <div className="md:flex">
-                        <div className="md:w-1/2 p-6 md:p-8 lg:p-12">
-                            <h2 className="text-3xl font-bold text-gray-800 mb-6">Delivery Information</h2>
-                            <form onSubmit={handleSubmit} className="space-y-4">
-                                {Object.entries(formData).map(([key, value]) => key !== 'deliveryFee' && (
-                                    <div key={key}>
-                                        <label htmlFor={key} className="block text-sm font-medium text-gray-700 mb-1">
-                                            {key.charAt(0).toUpperCase() + key.slice(1).replace(/[A-Z]/g, ' $&')}
-                                        </label>
-                                        <input
-                                            id={key}
-                                            type={key === 'email' ? 'email' : 'text'}
-                                            name={key}
-                                            value={value}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                        />
-                                    </div>
-                                ))}
-                            </form>
-                        </div>
-                        <div className="md:w-1/2 bg-indigo-100 p-6 md:p-8 lg:p-12">
-                            <h2 className="text-3xl font-bold text-gray-800 mb-6">Order Summary</h2>
-                            <div className="space-y-4">
-                                {cart.map((product, index) => (
-                                    <div key={index} className="flex justify-between items-center">
-                                        <span className="text-gray-600">{product.productId.productName} x {product.quantity}</span>
-                                        <span className="font-semibold">${(product.productId.productPrice * product.quantity).toFixed(2)}</span>
-                                    </div>
-                                ))}
-                                <div className="border-t pt-4">
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-gray-600">Subtotal</span>
-                                        <span className="font-semibold">${subtotal.toFixed(2)}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center mt-2">
-                                        <span className="text-gray-600">Delivery Fee</span>
-                                        <span className="font-semibold">${formData.deliveryFee.toFixed(2)}</span>
-                                    </div>
-                                </div>
-                                <div className="border-t pt-4">
-                                    <div className="flex justify-between items-center text-xl font-bold">
-                                        <span>Total</span>
-                                        <span>${(subtotal + formData.deliveryFee).toFixed(2)}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <button
-                                type="submit"
-                                onClick={handleSubmit}
-                                className="w-full mt-8 bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
-                            >
-                                Place Order
-                            </button>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <>
+      <Navbar />
+      <div className="bg-gradient-to-br from-purple-100 to-indigo-100 min-h-screen p-4 md:p-8 lg:p-12">
+        <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+          <div className="md:flex">
+            <div className="md:w-1/2 p-6 md:p-8 lg:p-12">
+              <h2 className="text-3xl font-bold text-gray-800 mb-6">
+                Delivery Information
+              </h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {Object.entries(formData).map(
+                  ([key, value]) =>
+                    key !== "deliveryFee" && (
+                      <div key={key}>
+                        <label
+                          htmlFor={key}
+                          className="block text-sm font-medium text-gray-700 mb-1"
+                        >
+                          {key.charAt(0).toUpperCase() +
+                            key.slice(1).replace(/[A-Z]/g, " $&")}
+                        </label>
+                        <input
+                          id={key}
+                          type={key === "email" ? "email" : "text"}
+                          name={key}
+                          value={value}
+                          onChange={handleChange}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        />
+                      </div>
+                    )
+                )}
+                <button
+                  type="submit"
+                  className="w-full mt-8 bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+                >
+                  Place Order and Pay
+                </button>
+              </form>
             </div>
-        </>
-    );
-}
+            <div className="md:w-1/2 bg-indigo-100 p-6 md:p-8 lg:p-12">
+              <h2 className="text-3xl font-bold text-gray-800 mb-6">
+                Order Summary
+              </h2>
+              <div className="space-y-4">
+                {cart.map((product, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between items-center"
+                  >
+                    <span className="text-gray-600">
+                      {product.productId.productName} x {product.quantity}
+                    </span>
+                    <span className="font-semibold">
+                      $
+                      {(
+                        product.productId.productPrice * product.quantity
+                      ).toFixed(2)}
+                    </span>
+                  </div>
+                ))}
+                <div className="border-t pt-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Subtotal</span>
+                    <span className="font-semibold">
+                      ${subtotal.toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center mt-2">
+                    <span className="text-gray-600">Delivery Fee</span>
+                    <span className="font-semibold">
+                      ${formData.deliveryFee.toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+                <div className="border-t pt-4">
+                  <div className="flex justify-between items-center text-xl font-bold">
+                    <span>Total</span>
+                    <span>${(subtotal + formData.deliveryFee).toFixed(2)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default PlaceOrder;

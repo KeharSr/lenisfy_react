@@ -129,7 +129,7 @@ const ProductDetails = () => {
 
   const buyNow = () => {
     addToCart();
-    // Add navigation to checkout or any other logic for immediate purchase
+    
   };
 
   const startVideo = () => {

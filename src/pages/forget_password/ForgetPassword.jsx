@@ -5,12 +5,13 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { forgotPasswordApi, verifyOtpApi } from '../../apis/Api';
+import { Password } from '@mui/icons-material';
 
 const ForgetPassword = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isSent, setIsSent] = useState(false);
   const [otp, setOtp] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+  const [password, setNewPassword] = useState('');
 
   const handleSendOtp = (e) => {
     e.preventDefault();
@@ -33,7 +34,7 @@ const ForgetPassword = () => {
     const data = {
       phoneNumber: phoneNumber,
       otp: otp,
-      newPassword: newPassword,
+      password: password,
     };
     verifyOtpApi(data)
       .then((res) => {

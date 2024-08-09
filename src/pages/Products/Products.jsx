@@ -41,20 +41,33 @@ const Products = ({ productInformation, color }) => {
       });
   };
 
+  
   const toggleFavorite = async (productId) => {
     try {
       const res = await addFavouriteApi({ productId });
-      if (res.status === 201) {
+  
+      if (res.status === 200) {
         setIsFavorite(true);
         toast.success('Product added to favorites');
       } else {
-        toast.error(res.data.message);
+       
+        const errorMessage = res.data.message;
+        toast.error(errorMessage);
       }
     } catch (err) {
-      console.log(err);
-      toast.error('Failed to add to favorites');
+    
+      if (err.response) {
+        // Extract the message from the backend error
+        const errorMessage = err.response.data.message;
+        toast.error(errorMessage);
+      } else {
+        
+        console.log(err);
+        toast.error('An unexpected error occurred');
+      }
     }
   };
+  
 
   return (
     <div className="w-full max-w-sm mx-auto bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl" data-aos="fade-up">
