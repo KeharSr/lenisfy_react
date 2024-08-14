@@ -1,3 +1,4 @@
+import React from "react";
 import { render, screen, waitFor, fireEvent, act } from "@testing-library/react";
 import ProductDetails from "./ProductDetails";
 import {
@@ -10,7 +11,7 @@ import {
   getCurrentUserApi,
 } from "../../apis/Api";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import * as React from "react";
+import Modal from "react-modal";
 import * as ReactHotToast from "react-hot-toast";
 import productMockData from "../../__mock__/productMockData";
 import reviewsMockData from "../../__mock__/reviewsMockData";
@@ -23,6 +24,13 @@ jest.mock("react-hot-toast");
 
 describe("ProductDetails Component Test", () => {
   beforeEach(() => {
+    // Set up #root element in the DOM
+    const root = document.createElement("div");
+    root.setAttribute("id", "root");
+    document.body.appendChild(root);
+    Modal.setAppElement(root);
+
+    // Mock API responses
     getSingleProductApi.mockResolvedValue({
       status: 200,
       data: { product: productMockData[0] },
@@ -44,13 +52,19 @@ describe("ProductDetails Component Test", () => {
       data: { user: { name: "Test User" } },
     });
 
-    // Ensure toast mocks are cleared before each test
+    // Clear toast mocks
     ReactHotToast.toast.success.mockClear();
     ReactHotToast.toast.error.mockClear();
   });
 
   afterEach(() => {
     jest.clearAllMocks();
+
+    // Clean up #root element from the DOM
+    const root = document.getElementById("root");
+    if (root) {
+      document.body.removeChild(root);
+    }
   });
 
   it("should display product details", async () => {

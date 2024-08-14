@@ -1,5 +1,5 @@
 // src/pages/cart/Cart.test.js
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent, } from "@testing-library/react";
 import Cart from "./Cart";
 import { getCartApi, updateCartItemApi, getCurrentUserApi } from "../../apis/Api";
 import cartMockData from "../../__mock__/cartMockData";

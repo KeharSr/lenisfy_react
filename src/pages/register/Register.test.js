@@ -4,7 +4,6 @@ import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import Register from "./Register";
 import { registerUserApi } from "../../apis/Api";
 import { toast } from "react-toastify";
-import { wait } from "@testing-library/user-event/dist/utils";
 import { BrowserRouter } from "react-router-dom";
 
 // mock api js

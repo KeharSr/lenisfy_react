@@ -18,6 +18,8 @@ import PlaceOrder from './pages/placeorder/PlaceOrder';
 import ForgetPassword from "./pages/forget_password/ForgetPassword";
 import MyOrders from './pages/my_order/MyOrder';
 import Favorites from './pages/favourites/Favourites';
+import EditProfile from './pages/edit_profile/Edit_Profile';
+
 
 
 
@@ -47,6 +49,7 @@ function App() {
         <Route path='/placeorder/:cart' element={<PlaceOrder />} />
         <Route path='/myorder'element={<MyOrders/>} />
         <Route path='/favourites' element={<Favorites/>} />
+        <Route path='/profile' element={<EditProfile/>} />
         </Route>
         <Route path='/forgetpassword' element={<ForgetPassword/>}/>
       </Routes>

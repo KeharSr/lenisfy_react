@@ -53,9 +53,14 @@ const ViewOrder = () => {
         );
     }
 
-    const formatAddress = (address) => {
-        return `${address.firstName}, ${address.street}, ${address.city}, ${address.state} ${address.zipCode}, ${address.country}`;
+    // const formatAddress = (address) => {
+    //     return `${address.firstName}, ${address.street}, ${address.city}, ${address.state} ${address.zipCode}, ${address.country}`;
+    // };
+
+    const formatAddress = (order) => {
+        return `${order.name}, ${order.street}, ${order.city}, ${order.state} ${order.zipCode}, ${order.country},${order.phone}`;
     };
+    
 
     const toggleOrderExpansion = (orderId) => {
         setExpandedOrder(expandedOrder === orderId ? null : orderId);
@@ -128,7 +133,7 @@ const ViewOrder = () => {
                                         <div>
                                             <h3 className="text-lg font-semibold mb-3 text-gray-700">Order Details</h3>
                                             <div className="space-y-3">
-                                                {order.products.map(product => (
+                                                {order.carts.map(product => (
                                                     <div key={product.productId._id} className="flex items-center space-x-4 bg-white p-3 rounded-lg shadow-sm">
                                                         <img src={`http://localhost:5000/products/${product.productId.productImage}`} alt={product.productId.productName} className="w-16 h-16 object-cover rounded-md" />
                                                         <div className="flex-grow">
@@ -146,10 +151,10 @@ const ViewOrder = () => {
                                             <h3 className="text-lg font-semibold mb-3 text-gray-700">Shipping Information</h3>
                                             <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
                                                 <p className="text-gray-700 mb-2">
-                                                    <span className="font-semibold">Address:</span> {formatAddress(order.address)}
+                                                    <span className="font-semibold">Address:</span> {formatAddress(order)}
                                                 </p>
                                                 <p className="text-gray-700">
-                                                    <span className="font-semibold">Phone:</span> {order.address.phone}
+                                                    <span className="font-semibold">Phone:</span> {order.phone}
                                                 </p>
                                             </div>
                                             <h3 className="text-lg font-semibold mb-3 text-gray-700">Order Status</h3>
