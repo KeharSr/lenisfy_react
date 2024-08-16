@@ -1,6 +1,7 @@
-# Getting Started with Create React App
+# Lensify Ecommerce
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based frontend for the Lensify eCommerce website, offering tailored interfaces for both customers (User) and administrators (Admin) to browse and purchase products, manage orders, and handle inventory and customer information.
+(https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
