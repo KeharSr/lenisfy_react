@@ -24,67 +24,37 @@ A React-based frontend for the Lensify eCommerce website, offering tailored inte
 
 ### Technologies
 
-- **React.js**: Core frontend library
-- **Redux**: State management
-- **Tailwind CSS**: UI styling
+- ![React.js Logo](path/to/react-logo.png) **React.js**: Core frontend library
+- ![Redux Logo](path/to/redux-logo.png) **Redux**: State management
+- ![Tailwind CSS Logo](path/to/tailwind-logo.png) **Tailwind CSS**: UI styling
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### API Integration
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The frontend communicates with the backend via a RESTful API, handling operations for both Admin and User roles, such as product management, order processing, customer data handling, and AR try-on functionality.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+### Future Works
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **AR Try-On Expansion**: Extend the virtual try-on feature to include more accessories such as hats and earrings for a more comprehensive experience.
+- **Enhanced Personalization**: Implement AI-driven recommendations based on user preferences and past behavior to suggest products more accurately.
+- **In-Store Pickup Option**: Introduce an option for users to reserve products online and pick them up at a physical store location.
+- **Social Media Integration**: Enable users to share their try-on experiences and favorite products directly on social media platforms.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Challenges
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **State Management**: Managing complex state across various components, particularly with features like virtual try-on, user authentication, and shopping cart, was challenging but effectively handled using React's Context API and useReducer hook.
+- **AR Integration**: Integrating augmented reality for the virtual try-on feature in a web environment required overcoming challenges related to performance, accurate rendering, and compatibility with different browsers.
+- **Responsive Design**: Ensuring that the user interface remained consistent and functional across a wide range of devices and screen sizes was challenging, but Tailwind CSS provided the flexibility needed to create a responsive design.
+- **API Integration**: Handling API requests for real-time product updates, user authentication, and AR data processing while maintaining smooth and secure communication was crucial and required thorough testing.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Environment Variables
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- `REACT_APP_API_URL`: http://localhost:5000
+- `REACT_APP_GOOGLE_CLIENT_ID`: 348505927725-nhamp4q2f0jkqp4ov57ch1t51oir47pe.apps.googleusercontent.com
+- `REACT_APP_KHALTI_URL`: https://test-pay.khalti.com/
+- `REACT_APP_KHALTI_PUBLIC_KEY`: 064d32e438be480288e4d15e300cbfce
+- `REACT_APP_AR_SERVICE_URL`: The URL for the Augmented Reality service used in the virtual try-on feature.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
