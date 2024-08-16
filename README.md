@@ -8,28 +8,25 @@ A React-based frontend for the Lensify eCommerce website, offering tailored inte
 
 ### Admin Role
 
-##### Dashboard: Overview of eCommerce operations, including current orders, product inventory, and sales statistics.
-
-##### Product Management: Manage product listings, add new products, and update product details.
-
-##### Order Management: View, process, and update orders placed by customers.
-
-##### Customer Management: Access customer profiles, view order history, and update customer information.
-
-##### Billing & Invoices: Generate and manage invoices for customer payments and track payment status.
-
+- **Dashboard**: Overview of eCommerce operations, including current orders, product inventory, and sales statistics.
+- **Product Management**: Manage product listings, add new products, and update product details.
+- **Order Management**: View, process, and update orders placed by customers.
+- **Customer Management**: Access customer profiles, view order history, and update customer information.
+- **Billing & Invoices**: Generate and manage invoices for customer payments and track payment status.
 
 ### User Role
 
-##### Google Login: Secure login using Google account for seamless access to the website.
+- **Google Login**: Secure login using Google account for seamless access to the website.
+- **Product Search**: Browse and filter products based on categories, price, and preferences.
+- **Cart & Checkout**: Add products to the cart, review orders, and proceed to checkout.
+- **Order History**: View and manage personal order history.
+- **Profile Management**: Update personal details, addresses, and payment methods.
 
-##### Product Search: Browse and filter products based on categories, price, and preferences.
+### Technologies
 
-##### Cart & Checkout: Add products to the cart, review orders, and proceed to checkout.
-
-##### Order History: View and manage personal order history.
-
-##### Profile Management: Update personal details, addresses, and payment methods.
+- **React.js**: Core frontend library
+- **Redux**: State management
+- **Tailwind CSS**: UI styling
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
