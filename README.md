@@ -1,11 +1,22 @@
 # Lensify Ecommerce
 
 A React-based frontend for the Lensify eCommerce website, offering tailored interfaces for both customers (User) and administrators (Admin) to browse and purchase products, manage orders, and handle inventory and customer information.
+
 (https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### Admin Role
+
+Dashboard: Overview of eCommerce operations, including current orders, product inventory, and sales statistics.
+
+Product Management: Manage product listings, add new products, and update product details.
+Order Management: View, process, and update orders placed by customers.
+
+Customer Management: Access customer profiles, view order history, and update customer information.
+
+Billing & Invoices: Generate and manage invoices for customer payments and track payment status.
+Analytics: Monitor sales trends, customer behavior, and website performance.
 
 ### `npm start`
 
