@@ -8,17 +8,28 @@ A React-based frontend for the Lensify eCommerce website, offering tailored inte
 
 ### Admin Role
 
-Dashboard: Overview of eCommerce operations, including current orders, product inventory, and sales statistics.
+##### Dashboard: Overview of eCommerce operations, including current orders, product inventory, and sales statistics.
 
-Product Management: Manage product listings, add new products, and update product details.
-Order Management: View, process, and update orders placed by customers.
+##### Product Management: Manage product listings, add new products, and update product details.
 
-Customer Management: Access customer profiles, view order history, and update customer information.
+##### Order Management: View, process, and update orders placed by customers.
 
-Billing & Invoices: Generate and manage invoices for customer payments and track payment status.
-Analytics: Monitor sales trends, customer behavior, and website performance.
+##### Customer Management: Access customer profiles, view order history, and update customer information.
 
-### `npm start`
+##### Billing & Invoices: Generate and manage invoices for customer payments and track payment status.
+
+
+### User Role
+
+##### Google Login: Secure login using Google account for seamless access to the website.
+
+##### Product Search: Browse and filter products based on categories, price, and preferences.
+
+##### Cart & Checkout: Add products to the cart, review orders, and proceed to checkout.
+
+##### Order History: View and manage personal order history.
+
+##### Profile Management: Update personal details, addresses, and payment methods.
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
