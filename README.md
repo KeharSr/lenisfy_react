@@ -50,7 +50,6 @@ The frontend communicates with the backend via a RESTful API, handling operation
 
 
 ### Environment Variables
-
 - `REACT_APP_API_URL`: http://localhost:5000
 - `REACT_APP_GOOGLE_CLIENT_ID`: 348505927725-nhamp4q2f0jkqp4ov57ch1t51oir47pe.apps.googleusercontent.com
 - `REACT_APP_KHALTI_URL`: https://test-pay.khalti.com/

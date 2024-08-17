@@ -1,7 +1,3 @@
-
-
-
-
 import React from 'react';
 
 const DeleteConfirmationDialog = ({ open, onClose, onConfirm }) => {
@@ -10,9 +6,6 @@ const DeleteConfirmationDialog = ({ open, onClose, onConfirm }) => {
     return (
         <div>
             <div className="flex justify-center m-5">
-                {/* <button id="deleteButton" open={open} onClose={onClose} className="block text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" type="button">
-                    Show delete confirmation
-                </button> */}
             </div>
             {open && (
                 <div id="deleteModal" className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full bg-black bg-opacity-50">

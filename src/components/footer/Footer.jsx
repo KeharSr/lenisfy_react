@@ -1,6 +1,5 @@
 import React from 'react';
 import { Facebook, Instagram, Twitter, Youtube, Linkedin } from 'lucide-react';
-import footer1 from '../../assets/images/footer1.png';
 import footer2 from '../../assets/images/loginui.png';
 
 const Footer = () => {
@@ -19,11 +18,6 @@ const Footer = () => {
             <h2 className="text-2xl font-bold text-red-500">Lensify</h2>
             <p className="text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
             <div className="rounded-lg overflow-hidden">
-              {/* <img
-                src={footer1}
-                alt="Featured"
-                className="w-full h-auto transition-transform duration-300 hover:scale-105"
-              /> */}
             </div>
           </div>
           

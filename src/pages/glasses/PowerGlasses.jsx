@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from 'react';
 import { getAverageRatingApi, getProductsByCategoryApi } from '../../apis/Api';
 import Products from '../Products/Products';
