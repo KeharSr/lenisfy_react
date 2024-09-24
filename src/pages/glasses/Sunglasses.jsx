@@ -12,7 +12,7 @@ const SunGlasses = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [productsRatings, setProductsRatings] = useState({});
-  const limit = 2; // Set to match the default limit in your API
+  const limit = 4; // Set to match the default limit in your API
 
   useEffect(() => {
     fetchProducts();
