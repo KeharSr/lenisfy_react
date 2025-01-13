@@ -11,20 +11,14 @@ import {
 } from "../../apis/Api";
 import toast from "react-hot-toast";
 import Navbar from "../../components/navbar/Navbar";
-import Modal from "react-modal";
-import axios from "axios";
+
 import {
   Star,
   ShoppingCart,
   CreditCard,
-  Camera,
-  X,
   Edit,
   Plus,
   Minus,
-  Facebook,
-  Twitter,
-  Instagram,
 } from "lucide-react";
 
 const ProductDetails = () => {
@@ -43,23 +37,9 @@ const ProductDetails = () => {
   const [ownReview, setOwnReview] = useState(null);
   const [productsRatings, setProductsRatings] = useState({});
 
-  const [isTryOnActive, setIsTryOnActive] = useState(false);
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
-  const outputCanvasRef = useRef(null);
 
-  Modal.setAppElement("#root");
 
-  const openModal = () => {
-    setIsTryOnActive(true);
-    console.log("Modal opened");
-  };
-
-  const closeModal = () => {
-    setIsTryOnActive(false);
-    console.log("Modal closed");
-  };
-
+  
   useEffect(() => {
     getSingleProductApi(id)
       .then((res) => {
@@ -166,86 +146,13 @@ const ProductDetails = () => {
     addToCart();
   };
 
-  const startVideo = () => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true })
-      .then((stream) => {
-        console.log("Camera stream started");
-        videoRef.current.srcObject = stream;
-        videoRef.current.play();
-      })
-      .catch((err) => {
-        console.error("Error accessing the camera: ", err);
-        toast.error("Failed to access camera");
-      });
-  };
+  
+  
+  
 
-  const captureFrame = () => {
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-    if (videoRef.current.readyState === videoRef.current.HAVE_ENOUGH_DATA) {
-      canvas.width = videoRef.current.videoWidth;
-      canvas.height = videoRef.current.videoHeight;
-      context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-      console.log("Frame captured from video");
-      canvas.toBlob((blob) => {
-        if (blob) {
-          console.log("Frame blob created, sending to backend");
-          sendFrameToBackend(blob);
-        }
-      }, "image/jpeg");
-    }
-  };
+  
 
-  const sendFrameToBackend = async (blob) => {
-    const formData = new FormData();
-    formData.append("frame", blob, "frame.jpg");
-
-    try {
-      const response = await axios.post(
-        "http://localhost:5001/process_frame",
-        formData
-      );
-      drawGlasses(response.data);
-    } catch (error) {
-      console.error("Error sending frame to backend:", error);
-      toast.error("Virtual try-on processing failed");
-    }
-  };
-
-  const drawGlasses = (data) => {
-    const canvas = outputCanvasRef.current;
-    const context = canvas.getContext("2d");
-    console.log("Canvas dimensions:", canvas.width, canvas.height);
-
-    const image = new Image();
-    image.src = "data:image/png;base64," + data.image;
-    image.onload = () => {
-      console.log("Image loaded:", image.width, image.height);
-      canvas.width = image.width;
-      canvas.height = image.height;
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      context.drawImage(image, 0, 0, canvas.width, canvas.height);
-      console.log("Glasses drawn on canvas");
-    };
-  };
-
-  useEffect(() => {
-    if (isTryOnActive) {
-      console.log("Try-On activated");
-      startVideo();
-      const intervalId = setInterval(captureFrame, 1000 / 30); // Capture at 30 FPS
-      return () => {
-        clearInterval(intervalId);
-        if (videoRef.current && videoRef.current.srcObject) {
-          videoRef.current.srcObject
-            .getTracks()
-            .forEach((track) => track.stop());
-        }
-        console.log("Try-On deactivated and camera stopped");
-      };
-    }
-  }, [isTryOnActive]);
+  
 
   const handleReviewSubmit = async (event) => {
     event.preventDefault();
@@ -453,21 +360,8 @@ const ProductDetails = () => {
                   Buy Now
                 </button>
               </div>
-              <button
-                onClick={openModal}
-                className="w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white px-6 py-3 rounded-md font-bold hover:from-purple-600 hover:to-pink-700 transition-all duration-300 flex items-center justify-center mb-8 shadow-lg"
-              >
-                <Camera className="w-5 h-5 mr-2" />
-                Virtual Try On
-              </button>
-              <div className="flex items-center">
-                <span className="mr-4 text-gray-700 font-semibold">Share:</span>
-                <div className="flex space-x-4">
-                  <Facebook className="w-6 h-6 text-blue-600 cursor-pointer hover:text-blue-700 transition-colors duration-300" />
-                  <Twitter className="w-6 h-6 text-blue-400 cursor-pointer hover:text-blue-500 transition-colors duration-300" />
-                  <Instagram className="w-6 h-6 text-pink-600 cursor-pointer hover:text-pink-700 transition-colors duration-300" />
-                </div>
-              </div>
+            
+              
             </div>
           </div>
         </div>
@@ -577,59 +471,7 @@ const ProductDetails = () => {
         </div>
       </div>
 
-      {/* Virtual Try-On Modal */}
-      <Modal
-        isOpen={isTryOnActive}
-        onRequestClose={closeModal}
-        contentLabel="Virtual Try-On"
-        style={{
-          overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.75)",
-            zIndex: 1000,
-          },
-          content: {
-            top: "50%",
-            left: "50%",
-            right: "auto",
-            bottom: "auto",
-            marginRight: "-50%",
-            transform: "translate(-50%, -50%)",
-            backgroundColor: "white",
-            padding: "20px",
-            maxWidth: "80vw",
-            maxHeight: "80vh",
-            overflow: "auto",
-          },
-        }}
-      >
-        <div className="relative p-4">
-          <h2 className="text-2xl font-bold mb-4">Virtual Try-On</h2>
-          <button
-            onClick={closeModal}
-            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-          >
-            <X className="w-6 h-6" />
-          </button>
-          <div className="relative w-full max-w-2xl mx-auto">
-            <video
-              ref={videoRef}
-              className="w-full h-auto"
-              autoPlay
-              playsInline
-              muted
-            />
-            <canvas ref={canvasRef} className="hidden" />
-            <canvas
-              ref={outputCanvasRef}
-              className="absolute top-0 left-0 w-full h-full pointer-events-none"
-            />
-          </div>
-          <p className="mt-4 text-gray-600">
-            If you can see this text, the modal is working. The video should
-            appear above.
-          </p>
-        </div>
-      </Modal>
+
     </div>
   );
 };
